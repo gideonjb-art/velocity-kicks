@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velocity Admin Pro</title>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#0A0A0A;
+color:white;
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:240px;
+background:#000;
+padding:25px;
+position:fixed;
+height:100%;
+border-right:1px solid rgba(255,255,255,0.05);
+}
+
+.sidebar h2{
+color:#D4AF37;
+margin-bottom:30px;
+font-size:1.5rem;
+}
+
+.sidebar a{
+display:block;
+padding:12px;
+margin-bottom:10px;
+text-decoration:none;
+color:white;
+border-radius:10px;
+transition:0.3s;
+font-weight:600;
+}
+
+.sidebar a:hover{
+background:#111;
+color:#D4AF37;
+}
+
+/* MAIN */
+.main{
+margin-left:240px;
+padding:25px;
+width:100%;
+}
+
+/* CARDS */
+.card{
+background:#111;
+padding:25px;
+border-radius:20px;
+margin-bottom:25px;
+box-shadow:0 0 20px rgba(0,0,0,0.3);
+border:1px solid rgba(255,255,255,0.05);
+}
+
+.card h2{
+margin-bottom:20px;
+}
+
+/* INPUTS */
+input,
+select{
+width:100%;
+padding:12px;
+margin:10px 0;
+background:#1b1b1b;
+border:none;
+border-radius:12px;
+color:white;
+font-size:0.95rem;
+outline:none;
+}
+
+/* FILE INPUT */
+input[type="file"]{
+padding:14px;
+cursor:pointer;
+}
+
+/* BUTTON */
+button{
+padding:12px;
+background:#D4AF37;
+color:black;
+font-weight:700;
+border:none;
+border-radius:12px;
+cursor:pointer;
+transition:0.3s;
+width:100%;
+}
+
+button:hover{
+transform:scale(1.02);
+}
+
+/* IMAGE PREVIEW */
+#previewImg{
+width:120px;
+height:120px;
+object-fit:cover;
+border-radius:14px;
+margin-top:15px;
+display:none;
+border:2px solid #D4AF37;
+}
+
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+padding:14px;
+text-align:left;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+th{
+color:#D4AF37;
+}
+
+td img{
+width:60px;
+height:60px;
+object-fit:cover;
+border-radius:10px;
+}
+
+/* ACTION BUTTONS */
+.action-btn{
+padding:8px 14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-right:5px;
+font-size:0.85rem;
+width:auto;
+}
+
+.edit-btn{
+background:#2196f3;
+color:white;
+}
+
+.delete-btn{
+background:#f44336;
+color:white;
+}
+
+/* STATUS */
+.badge{
+padding:6px 12px;
+border-radius:30px;
+font-size:12px;
+font-weight:600;
+}
+
+.pending{
+background:#ff9800;
+}
+
+.paid{
+background:#2196f3;
+}
+
+.delivered{
+background:#4caf50;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.sidebar{
+display:none;
+}
+
+.main{
+margin-left:0;
+padding:15px;
+}
+
+table{
+font-size:0.85rem;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+<h2>Velocity Admin</h2>
+
+<a href="#add">➕ Add Product</a>
+<a href="#inventory">📦 Inventory</a>
+<a href="#orders">🛒 Orders</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- ADD PRODUCT -->
+<div class="card" id="add">
+<h2>Add Product</h2>
+
+<input id="prodName" placeholder="Product Name">
+
+<input id="prodPrice" type="number" placeholder="Price">
+
+<input id="prodStock" type="number" placeholder="Stock">
+  <select id="prodCategory">
+<option value="men">Men</option>
+<option value="women">Women</option>
+<option value="kids">Kids</option>
+</select>
+
+<input type="file" id="imageFile" accept="image/*">
+
+<img id="previewImg">
+
+<br><br>
+
+<button onclick="addProduct()" id="addBtn">
+Save Product
+</button>
+</div>
+
+<!-- INVENTORY -->
+<div class="card" id="inventory">
+<h2>Inventory</h2>
+
+<table>
+<thead>
+<tr>
+<th>Image</th>
+<th>Name</th>
+<th>Price</th>
+<th>Stock</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="productTable"></tbody>
+</table>
+</div>
+
+<!-- ORDERS -->
+<div class="card" id="orders">
+<h2>Orders</h2>
+
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Size</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="ordersTable"></tbody>
+</table>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+
+const supabaseClient = window.supabase.createClient(
+"https://wylhbyrpmotecjdtjrae.supabase.co",
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5bGhieXJwbW90ZWNqZHRqcmFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTIyNzIsImV4cCI6MjA5MzQ4ODI3Mn0.HAy0JxHy913xB6DwApP72SmWG_8hR_Kj9nAqAJXEWfU"
+);
+
+let products = [];
+let currentEditId = null;
+
+/* IMAGE PREVIEW */
+document.getElementById("imageFile")
+.addEventListener("change", function(e){
+
+const file = e.target.files[0];
+const img = document.getElementById("previewImg");
+
+if(file){
+
+img.src = URL.createObjectURL(file);
+img.style.display = "block";
+
+}else{
+
+img.style.display = "none";
+
+}
+
+});
+
+/* LOAD PRODUCTS */
+async function loadProducts(){
+
+const table = document.getElementById("productTable");
+
+table.innerHTML = `
+<tr>
+<td colspan="5" style="text-align:center;">
+Loading...
+</td>
+</tr>
+`;
+
+const { data, error } = await supabaseClient
+.from("products")
+.select("*")
+.order("id", { ascending:false });
+
+if(error){
+
+console.error(error);
+
+table.innerHTML = `
+<tr>
+<td colspan="5" style="text-align:center;color:red;">
+Failed to load products
+</td>
+</tr>
+`;
+
+return;
+
+}
+
+products = data || [];
+
+if(products.length === 0){
+
+table.innerHTML = `
+<tr>
+<td colspan="5" style="text-align:center;">
+No products yet
+</td>
+</tr>
+`;
+
+return;
+
+}
+
+table.innerHTML = "";
+
+products.forEach(product => {
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+<img src="${product.image}">
+</td>
+
+<td>${product.name}</td>
+
+<td>KES ${product.price}</td>
+
+<td>${product.stock}</td>
+
+<td>
+
+<button class="action-btn edit-btn"
+onclick="editProduct('${product.id}')">
+Edit
+</button>
+
+<button class="action-btn delete-btn"
+onclick="deleteProduct('${product.id}')">
+Delete
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+/* ADD PRODUCT */
+async function addProduct(){
+
+const btn = document.getElementById("addBtn");
+
+btn.innerText = "Saving...";
+btn.disabled = true;
+
+try {
+
+const name = document.getElementById("prodName").value.trim();
+const price = document.getElementById("prodPrice").value;
+const stock = document.getElementById("prodStock").value;
+const category = document.getElementById("prodCategory").value;
+const file = document.getElementById("imageFile").files[0];
+
+if(!name || !price || !stock || !category || !file){
+alert("Fill all fields");
+btn.innerText = "Save Product";
+btn.disabled = false;
+return;
+}
+
+const fileName = Date.now() + "-" + file.name.replace(/\s/g,"");
+
+const { error: uploadError } = await supabaseClient.storage
+.from("products")
+.upload(fileName, file);
+
+if(uploadError){
+alert(uploadError.message);
+btn.innerText = "Save Product";
+btn.disabled = false;
+return;
+}
+
+const imageUrl =
+`https://wylhbyrpmotecjdtjrae.supabase.co/storage/v1/object/public/products/${fileName}`;
+
+const productData = {
+name,
+price: Number(price),
+stock: Number(stock),
+category,
+image: imageUrl
+};
+
+let error;
+
+if(currentEditId){
+
+({ error } = await supabaseClient
+.from("products")
+.update(productData)
+.eq("id", currentEditId));
+
+currentEditId = null;
+
+}else{
+
+({ error } = await supabaseClient
+.from("products")
+.insert([productData]));
+
+}
+
+if(error){
+alert(error.message);
+btn.innerText = "Save Product";
+btn.disabled = false;
+return;
+}
+
+alert("Product saved successfully");
+
+clearInputs();
+await loadProducts();
+
+} catch(err){
+console.error(err);
+alert("Unexpected error");
+}
+
+btn.innerText = "Save Product";
+btn.disabled = false;
+
+}
+
+
+/* EDIT PRODUCT */
+window.editProduct = function(id){
+
+const product = products.find(
+p => String(p.id) === String(id)
+);
+
+if(!product) return;
+
+document.getElementById("prodName").value =
+product.name;
+
+document.getElementById("prodPrice").value =
+product.price;
+
+document.getElementById("prodStock").value =
+product.stock;
+
+document.getElementById("prodCategory").value =
+product.category;
+
+document.getElementById("previewImg").src =
+product.image;
+
+document.getElementById("previewImg").style.display =
+"block";
+
+currentEditId = id;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+};
+
+/* DELETE PRODUCT */
+window.deleteProduct = async function(id){
+
+const confirmDelete =
+confirm("Delete this product?");
+
+if(!confirmDelete) return;
+
+await supabaseClient
+.from("products")
+.delete()
+.eq("id", id);
+
+loadProducts();
+
+};
+
+/* LOAD ORDERS */
+async function loadOrders(){
+
+const { data, error } = await supabaseClient
+.from("orders")
+.select("*")
+.order("id",{ascending:false});
+
+if(error){
+console.error(error);
+return;
+}
+
+const table =
+document.getElementById("ordersTable");
+
+table.innerHTML = "";
+
+(data || []).forEach(order => {
+
+table.innerHTML += `
+
+<tr>
+
+<td>${order.product}</td>
+
+<td>${order.size}</td>
+
+<td>
+<span class="badge ${order.status}">
+${order.status}
+</span>
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+/* CLEAR FORM */
+function clearInputs(){
+
+document.getElementById("prodName").value = "";
+
+document.getElementById("prodPrice").value = "";
+
+document.getElementById("prodStock").value = "";
+
+document.getElementById("imageFile").value = "";
+
+document.getElementById("previewImg").style.display =
+"none";
+
+document.getElementById("prodCategory").selectedIndex = 0;
+
+}
+
+/* INIT */
+loadProducts();
+loadOrders();
+
+</script>
+
+</body>
+</html>
