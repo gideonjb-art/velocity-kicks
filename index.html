@@ -1045,6 +1045,19 @@ button.classList.add("active");
 renderProducts();
 
 }
+  function openImageViewer(imageSrc){
+
+document.getElementById("viewerImage").src = imageSrc;
+
+document.getElementById("imageViewer").style.display = "flex";
+
+}
+
+function closeImageViewer(){
+
+document.getElementById("imageViewer").style.display = "none";
+
+}
 
 /* SEARCH PRODUCTS */
 function searchProducts(){
