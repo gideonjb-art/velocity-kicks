@@ -503,6 +503,22 @@ border-radius:10px;
 #cartItems{
 scroll-behavior:smooth;
 }
+ #viewerImage{
+transition:0.3s;
+cursor:zoom-in;
+}
+
+#viewerImage:hover{
+transform:scale(1.03);
+}
+ .product-info h3{
+cursor:pointer;
+transition:0.3s;
+}
+
+.product-info h3:hover{
+color:#D4AF37;
+} 
 </style>
 </head>
 
@@ -1131,23 +1147,28 @@ return;
 }
 
 /* DISPLAY PRODUCTS */
+/* DISPLAY PRODUCTS */
 grid.innerHTML = filteredProducts.map(p => `
 
-<div class="product-card reveal"
-onclick="openProduct('${p.id}')">
+<div class="product-card reveal">
+
 <img
 src="${p.image || 'https://via.placeholder.com/300'}"
 class="product-img"
 loading="lazy"
-onclick="event.stopPropagation(); openImageViewer('${p.image}')"
+onclick="openImageViewer('${p.image}')"
 style="cursor:pointer;"
 onerror="this.src='https://via.placeholder.com/300'"
 >
 
-
 <div class="product-info">
 
-<h3>${p.name || "Unnamed Product"}</h3>
+<h3
+onclick="openProduct('${p.id}')"
+style="cursor:pointer;"
+>
+${p.name || "Unnamed Product"}
+</h3>
 
 <p class="product-price">
 KES ${p.price || 0}
@@ -1165,16 +1186,18 @@ KES ${p.price || 0}
 
 <div style="display:flex; gap:10px;">
 
-<button onclick="orderProduct('${p.id}')">
+<button onclick="event.stopPropagation(); orderProduct('${p.id}')">
 Order
 </button>
 
-<button onclick="addToCart('${p.id}')">
+<button onclick="event.stopPropagation(); addToCart('${p.id}')">
 🛒
 </button>
 
-<button onclick="addToWishlist('${p.id}')"
-style="background:#222;color:#D4AF37;">
+<button
+onclick="event.stopPropagation(); addToWishlist('${p.id}')"
+style="background:#222;color:#D4AF37;"
+>
 ♡
 </button>
 
@@ -1185,10 +1208,6 @@ style="background:#222;color:#D4AF37;">
 </div>
 
 `).join("");
-
-revealOnScroll();
-
-}
 
 /* ORDER PRODUCT */
 window.orderProduct = async function(productId){
