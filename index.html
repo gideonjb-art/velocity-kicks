@@ -1156,7 +1156,7 @@ grid.innerHTML = filteredProducts.map(p => `
 src="${p.image || 'https://via.placeholder.com/300'}"
 class="product-img"
 loading="lazy"
-onclick='openImageViewer("${p.image}")'
+onclick='event.stopPropagation(); openImageViewer("${p.image}")'
 style="cursor:pointer;"
 onerror="this.src='https://via.placeholder.com/300'"
 >
@@ -1164,7 +1164,7 @@ onerror="this.src='https://via.placeholder.com/300'"
 <div class="product-info">
 
 <h3
-onclick='openProduct("${p.id}")'
+onclick='event.stopPropagation(); openProduct("${p.id}")'
 style="cursor:pointer;"
 >
 ${p.name || "Unnamed Product"}
