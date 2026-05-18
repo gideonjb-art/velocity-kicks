@@ -1146,7 +1146,7 @@ return;
 
 }
 
-/* DISPLAY PRODUCTS */
+
 /* DISPLAY PRODUCTS */
 grid.innerHTML = filteredProducts.map(p => `
 
@@ -1156,7 +1156,7 @@ grid.innerHTML = filteredProducts.map(p => `
 src="${p.image || 'https://via.placeholder.com/300'}"
 class="product-img"
 loading="lazy"
-onclick="openImageViewer('${p.image}')"
+onclick='openImageViewer("${p.image}")'
 style="cursor:pointer;"
 onerror="this.src='https://via.placeholder.com/300'"
 >
@@ -1164,7 +1164,7 @@ onerror="this.src='https://via.placeholder.com/300'"
 <div class="product-info">
 
 <h3
-onclick="openProduct('${p.id}')"
+onclick='openProduct("${p.id}")'
 style="cursor:pointer;"
 >
 ${p.name || "Unnamed Product"}
@@ -1186,16 +1186,16 @@ KES ${p.price || 0}
 
 <div style="display:flex; gap:10px;">
 
-<button onclick="event.stopPropagation(); orderProduct('${p.id}')">
+<button onclick="event.stopPropagation(); orderProduct("${p.id}")'>
 Order
 </button>
 
-<button onclick="event.stopPropagation(); addToCart('${p.id}')">
+<button onclick="event.stopPropagation(); addToCart("${p.id}")'>
 🛒
 </button>
 
 <button
-onclick="event.stopPropagation(); addToWishlist('${p.id}')"
+onclick="event.stopPropagation(); addToWishlist("${p.id}")'
 style="background:#222;color:#D4AF37;"
 >
 ♡
