@@ -965,10 +965,12 @@ document.getElementById("wishlistModal").style.display = "block";
 renderWishlist();
 }
 
-window.closeProduct = function(){
+window.closeWishlist = function(){
 document.getElementById("wishlistModal").style.display = "none";
 }
-
+window.closeProduct = function(){
+document.getElementById("productModal").style.display = "none";
+}
 function renderWishlist(){
 
 const box = document.getElementById("wishlistItems");
