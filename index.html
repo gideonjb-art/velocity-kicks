@@ -751,12 +751,12 @@ renderCart();
 
 };
 
-function openCart(){
+window.openCart = function(){
 renderCart();
 document.getElementById("cartModal").style.display = "block";
 }
 
-function closeCart(){
+window.closeCart = function(){
 document.getElementById("cartModal").style.display = "none";
 }
 
@@ -960,12 +960,12 @@ alert("Moved to cart 🛒");
 };
 
 /* WISHLIST UI */
-function openWishlist(){
+window.openWishlist = function(){
 document.getElementById("wishlistModal").style.display = "block";
 renderWishlist();
 }
 
-function closeWishlist(){
+window.closeProduct = function(){
 document.getElementById("wishlistModal").style.display = "none";
 }
 
@@ -1061,7 +1061,7 @@ button.classList.add("active");
 renderProducts();
 
 }
-  function openImageViewer(imageSrc){
+ window.openImageViewer = function(imageSrc){ 
 
 document.getElementById("viewerImage").src = imageSrc;
 
@@ -1069,7 +1069,7 @@ document.getElementById("imageViewer").style.display = "flex";
 
 }
 
-function closeImageViewer(){
+window.closeImageViewer = function(){
 
 document.getElementById("imageViewer").style.display = "none";
 
