@@ -1576,7 +1576,28 @@ Your cart is empty
 <div id="wishlistItems"></div>
 </div>
 <!-- PRODUCT MODAL -->
-<div id="productModal" style="
+<div id="productModal">
+
+<button
+onclick="closeProduct()"
+style="
+position:absolute;
+top:20px;
+right:20px;
+padding:10px 15px;
+border:none;
+background:#D4AF37;
+font-weight:bold;
+cursor:pointer;
+border-radius:10px;
+z-index:10;
+">
+Close
+</button>
+
+<div id="productDetails"></div>
+
+</div>
 #productModal{
 display:none;
 position:fixed;
