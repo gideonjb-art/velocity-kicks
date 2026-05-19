@@ -682,6 +682,7 @@ velocitykicks@gmail.com
 <!-- WHATSAPP -->
 <a href="https://wa.me/254798566993" class="whatsapp-float">
 <i class="fab fa-whatsapp"></i>
+  target="_blank" rel="noopener noreferrer"
 </a>
 
 <!-- SUPABASE -->
@@ -960,17 +961,32 @@ saveWishlist();
 renderWishlist();
 };
 
-window.moveToCart = function(id){
+ window.moveToCart = function(id){
 
-const product = wishlist.find(p => String(p.id) === String(id));
+const product = wishlist.find(
+p => String(p.id) === String(id)
+);
+
 if(!product) return;
 
-cart.push(product);
+cart.push({
+...product,
+quantity:1
+});
+
+wishlist = wishlist.filter(
+p => String(p.id) !== String(id)
+);
+
 saveCart();
+saveWishlist();
+
+renderWishlist();
+renderCart();
 
 alert("Moved to cart 🛒");
 
-};
+}; 
 
 /* WISHLIST UI */
 window.openWishlist = function(){
@@ -1239,7 +1255,9 @@ alert("Product not found");
 return;
 }
 
-const size = document.getElementById(`size-${productId}`)?.value;
+const size =
+document.getElementById(`modal-size-${productId}`)?.value ||
+document.getElementById(`size-${productId}`)?.value;
 
 if(!size || size === "Select Size"){
 alert("Select size first");
@@ -1501,7 +1519,7 @@ left:0;
 width:100%;
 height:100vh;
 background:#000;
-z-index:9999;
+z-index:10000;
 overflow-y:auto;
 ">
 
@@ -1619,7 +1637,7 @@ left:0;
 width:100%;
 height:100%;
 background:rgba(0,0,0,0.95);
-z-index:999999;
+z-index:11000;
 justify-content:center;
 align-items:center;
 padding:20px;
