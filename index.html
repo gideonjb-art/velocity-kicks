@@ -1213,23 +1213,14 @@ ${p.stock > 0
 </p>
 
 <select
-id="modal-size-${product.id}"
+id="size-${p.id}"
 class="size-select"
-style="
-width:100%;
-padding:15px;
-border:none;
-border-radius:10px;
-background:#1c1c1c;
-color:white;
-margin-bottom:20px;
-"
 >
 
 <option value="">Select Size</option>
 
 ${
-(product.sizes || "")
+(p.sizes || "")
 .split(",")
 .filter(size => size.trim() !== "")
 .map(size => `
@@ -1506,14 +1497,14 @@ margin-bottom:20px;
 ">
 
 <select
-id="modal-size-${product.id}"
+id="size-${p.id}"
 class="size-select"
 >
 
 <option value="">Select Size</option>
 
 ${
-(product.sizes || "")
+(p.sizes || "")
 .split(",")
 .filter(size => size.trim() !== "")
 .map(size => `
