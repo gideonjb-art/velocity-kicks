@@ -1577,6 +1577,7 @@ Your cart is empty
 </div>
 <!-- PRODUCT MODAL -->
 <div id="productModal" style="
+#productModal{
 display:none;
 position:fixed;
 top:0;
@@ -1585,8 +1586,58 @@ width:100%;
 height:100%;
 background:rgba(0,0,0,0.95);
 z-index:99999;
-overflow:auto;
-padding:30px;
+overflow-y:auto;
+padding:15px;
+box-sizing:border-box;
+}
+
+#productDetails > div{
+max-width:1000px;
+margin:auto;
+background:#111;
+border-radius:20px;
+padding:20px;
+box-sizing:border-box;
+}
+
+/* MOBILE FIX */
+@media(max-width:768px){
+
+#productModal{
+padding:10px;
+}
+
+#productDetails > div{
+grid-template-columns:1fr !important;
+gap:20px !important;
+padding:15px;
+}
+
+#productDetails h1{
+font-size:1.8rem !important;
+line-height:1.3;
+}
+
+#productDetails p{
+font-size:0.95rem !important;
+}
+
+#productDetails img{
+max-height:320px !important;
+object-fit:cover;
+}
+
+#productDetails button{
+padding:12px !important;
+font-size:0.9rem !important;
+}
+
+#productDetails select{
+padding:12px !important;
+font-size:0.95rem !important;
+}
+
+}
 ">
 
 <button
