@@ -1497,14 +1497,14 @@ margin-bottom:20px;
 ">
 
 <select
-id="size-${p.id}"
+id="modal-size-${product.id}"
 class="size-select"
 >
 
 <option value="">Select Size</option>
 
 ${
-(p.sizes || "")
+(product.sizes || "")
 .split(",")
 .filter(size => size.trim() !== "")
 .map(size => `
