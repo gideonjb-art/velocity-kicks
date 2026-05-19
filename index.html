@@ -298,13 +298,6 @@ overflow:hidden;
 transition:0.3s;
 box-shadow:0 0 15px rgba(0,0,0,0.3);
 }
-  <p style="
-color:${p.stock > 0 ? '#4CAF50' : '#ff4d4d'};
-font-size:0.9rem;
-margin-top:5px;
-">
-${p.stock > 0 ? `${p.stock} in stock` : 'Out of stock'}
-</p>
 
 .product-card:hover{
 transform:translateY(-8px);
@@ -1209,19 +1202,34 @@ ${p.name || "Unnamed Product"}
 <p class="product-price">
 KES ${p.price || 0}
 </p>
+<p style="
+color:${p.stock > 0 ? '#4CAF50' : '#ff4d4d'};
+font-size:0.9rem;
+margin-top:5px;
+">
+${p.stock > 0
+? `${p.stock} in stock`
+: 'Out of stock'}
+</p>
 
-<select id="size-${p.id}" class="size-select">
+<select
+id="modal-size-${product.id}"
+class="size-select"
+>
 
-<option>Select Size</option>
+<option value="">Select Size</option>
 
-${(p.sizes || "")
+${
+(product.sizes || "")
 .split(",")
+.filter(size => size.trim() !== "")
 .map(size => `
 <option value="${size.trim()}">
 ${size.trim()}
 </option>
 `)
-.join("")}
+.join("")
+}
 
 </select>
 
@@ -1488,18 +1496,24 @@ color:white;
 margin-bottom:20px;
 ">
 
-<select id="size-${p.id}" class="size-select">
+<select
+id="modal-size-${product.id}"
+class="size-select"
+>
 
-<option>Select Size</option>
+<option value="">Select Size</option>
 
-${(p.sizes || "")
+${
+(product.sizes || "")
 .split(",")
+.filter(size => size.trim() !== "")
 .map(size => `
 <option value="${size.trim()}">
 ${size.trim()}
 </option>
 `)
-.join("")}
+.join("")
+}
 
 </select>
 
@@ -1659,7 +1673,7 @@ Close
 
 <div id="productDetails"></div>
 
-</div>
+
   <!-- IMAGE VIEWER -->
 <div id="imageViewer" style="
 display:none;
