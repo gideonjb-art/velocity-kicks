@@ -520,8 +520,17 @@ transition:0.3s;
 color:#D4AF37;
 } 
 #productModal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+z-index:99999;
 overflow-y:auto;
--webkit-overflow-scrolling:touch;
+padding:30px;
+box-sizing:border-box;
 }
 </style>
 </head>
@@ -1597,71 +1606,6 @@ Close
 
 <div id="productDetails"></div>
 </div>
-
-#productDetails > div{
-max-width:1000px;
-margin:auto;
-background:#111;
-border-radius:20px;
-padding:20px;
-box-sizing:border-box;
-}
-
-/* MOBILE FIX */
-@media(max-width:768px){
-
-#productModal{
-padding:10px;
-}
-
-#productDetails > div{
-grid-template-columns:1fr !important;
-gap:20px !important;
-padding:15px;
-}
-
-#productDetails h1{
-font-size:1.8rem !important;
-line-height:1.3;
-}
-
-#productDetails p{
-font-size:0.95rem !important;
-}
-
-#productDetails img{
-max-height:320px !important;
-object-fit:cover;
-}
-
-#productDetails button{
-padding:12px !important;
-font-size:0.9rem !important;
-}
-
-#productDetails select{
-padding:12px !important;
-font-size:0.95rem !important;
-}
-
-}
-">
-
-<button
-onclick="closeProduct()"
-style="
-position:absolute;
-top:20px;
-right:20px;
-padding:10px 15px;
-border:none;
-background:#D4AF37;
-font-weight:bold;
-cursor:pointer;
-border-radius:10px;
-">
-Close
-</button>
 
 <div id="productDetails"></div>
 
