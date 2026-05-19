@@ -729,25 +729,6 @@ velocitykicks@gmail.com
 <a href="https://wa.me/254798566993" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
 <i class="fab fa-whatsapp"></i>
 </a>
-  document.getElementById("productGrid").innerHTML = `
-<div class="skeleton-grid">
-
-${Array(8).fill(`
-<div class="skeleton-card">
-
-<div class="skeleton-image"></div>
-
-<div class="skeleton-line"></div>
-
-<div class="skeleton-line short"></div>
-
-<div class="skeleton-line"></div>
-
-</div>
-`).join("")}
-
-</div>
-`;
 
 <!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -1098,7 +1079,25 @@ const phoneNumber = "254798566993";
 
 /* LOAD PRODUCTS */
 async function loadProducts(){
+document.getElementById("productGrid").innerHTML = `
+<div class="skeleton-grid">
 
+${Array(8).fill(`
+<div class="skeleton-card">
+
+<div class="skeleton-image"></div>
+
+<div class="skeleton-line"></div>
+
+<div class="skeleton-line short"></div>
+
+<div class="skeleton-line"></div>
+
+</div>
+`).join("")}
+
+</div>
+`;
 try{
 
 const { data, error } = await window.supabaseClient
