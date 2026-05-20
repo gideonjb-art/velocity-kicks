@@ -1,4 +1,3 @@
-<script>
 /* SUPABASE */
 if (!window.supabaseClient) {
 
@@ -998,4 +997,3 @@ document.getElementById("productModal").style.display = "block";
 function closeProduct(){
 document.getElementById("productModal").style.display = "none";
 }
-</script>
