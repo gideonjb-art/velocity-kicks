@@ -817,31 +817,52 @@ document.getElementById("wishCount").innerText = wishlist.length;
 /* =========================
 CART FUNCTIONS
 ========================= */
-
 window.addToCart = function(id){
 
-const product = products.find(p => String(p.id) === String(id));
+const product = products.find(
+p => String(p.id) === String(id)
+);
+
 if(!product) return;
 
-// check if item exists
-let existing = cart.find(item => String(item.id) === String(id));
+const selectedSize =
+document.getElementById(`modal-size-${id}`)?.value ||
+document.getElementById(`size-${id}`)?.value;
+
+if(!selectedSize){
+alert("Please select a shoe size");
+return;
+}
+
+let existing = cart.find(item =>
+String(item.id) === String(id) &&
+item.size === selectedSize
+);
 
 if(existing){
+
 existing.quantity += 1;
+
 }else{
+
 cart.push({
 id: product.id,
 name: product.name,
 price: Number(product.price),
 image: product.image,
+size: selectedSize,
 quantity: 1
 });
+
 }
 
 saveCart();
 renderCart();
 
+alert(`Added Size ${selectedSize} to cart`);
+
 };
+
 
 window.openCart = function(){
 renderCart();
@@ -909,6 +930,10 @@ style="width:70px;height:70px;object-fit:cover;border-radius:10px;" />
 <div style="flex:1;">
 <h4>${item.name}</h4>
 <p>KES ${item.price}</p>
+
+<p style="font-size:0.85rem;color:#D4AF37;">
+Size: ${item.size}
+</p>
 
 <div style="display:flex;align-items:center;gap:10px;margin-top:5px;">
 
@@ -990,13 +1015,14 @@ cart.forEach(item => {
 const subtotal = item.price * item.quantity;
 
 total += subtotal;
-
 message += `
 👟 ${item.name}
+📏 Size: ${item.size}
 Qty: ${item.quantity}
 KES ${subtotal}
 
 `;
+
 
 });
 
@@ -1317,7 +1343,13 @@ class="size-select"
 <option value="">Select Size</option>
 
 ${
-(p.sizes || "")
+Array.isArray(p.sizes)
+? p.sizes.map(size => `
+<option value="${size}">
+${size}
+</option>
+`).join("")
+: (p.sizes || "")
 .split(",")
 .filter(size => size.trim() !== "")
 .map(size => `
@@ -1591,7 +1623,13 @@ class="size-select"
 <option value="">Select Size</option>
 
 ${
-(product.sizes || "")
+Array.isArray(p.sizes)
+? p.sizes.map(size => `
+<option value="${size}">
+${size}
+</option>
+`).join("")
+: (p.sizes || "")
 .split(",")
 .filter(size => size.trim() !== "")
 .map(size => `
