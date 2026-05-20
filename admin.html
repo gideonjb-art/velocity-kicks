@@ -234,6 +234,10 @@ font-size:0.85rem;
 <option value="women">Women</option>
 <option value="kids">Kids</option>
 </select>
+ <input
+id="prodSizes"
+placeholder="Available Sizes (e.g 38,39,40,41,42)"
+> 
 
 <input type="file" id="imageFile" accept="image/*">
 
@@ -418,6 +422,12 @@ try {
 const name = document.getElementById("prodName").value.trim();
 const price = document.getElementById("prodPrice").value;
 const stock = document.getElementById("prodStock").value;
+
+const sizes = document
+.getElementById("prodSizes")
+.value
+.trim();
+
 const category = document.getElementById("prodCategory").value;
 const file = document.getElementById("imageFile").files[0];
 
@@ -448,6 +458,7 @@ const productData = {
 name,
 price: Number(price),
 stock: Number(stock),
+sizes,
 category,
 image: imageUrl
 };
@@ -511,6 +522,9 @@ product.price;
 
 document.getElementById("prodStock").value =
 product.stock;
+  
+  document.getElementById("prodSizes").value =
+product.sizes || "";
 
 document.getElementById("prodCategory").value =
 product.category;
@@ -604,6 +618,8 @@ document.getElementById("previewImg").style.display =
 "none";
 
 document.getElementById("prodCategory").selectedIndex = 0;
+
+  document.getElementById("prodSizes").value = "";
 
 }
 
