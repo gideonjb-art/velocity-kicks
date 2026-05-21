@@ -71,15 +71,41 @@ color:#D4AF37;
 }
 
 /* HERO */
+/* HERO */
 .hero{
-height:75vh;
+min-height:55vh;
 position:relative;
 overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:20px;
+padding:40px 20px;
+}
+@media(max-width:768px){
+
+.hero{
+
+min-height:40vh;
+padding:30px 15px;
+
+}
+
+.hero h1{
+font-size:2rem;
+line-height:1.2;
+}
+
+.hero p{
+font-size:0.9rem;
+max-width:300px;
+}
+
+.cta-btn{
+padding:12px 24px;
+font-size:0.9rem;
+}
+
 }
 
 /* BACKGROUND IMAGE 1 */
@@ -92,7 +118,7 @@ width:100%;
 height:100%;
 
 background-image:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1974&auto=format');
-background-size:cover;
+background-size:110%;
 background-position:center;
 
 animation:fadeHero1 60s infinite;
