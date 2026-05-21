@@ -816,7 +816,7 @@ onerror="this.src='https://via.placeholder.com/500'"
 style="
 width:100%;
 border-radius:20px;
-max-height:600px;
+max-height:420px;
 object-fit:cover;
 "
 />
@@ -825,7 +825,7 @@ object-fit:cover;
 
 <div>
 
-<h1 style="font-size:3rem;">
+<h1 style="font-size:2rem;">
 ${product.name}
 </h1>
 
