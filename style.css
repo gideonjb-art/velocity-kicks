@@ -120,7 +120,6 @@ height:100%;
 background-image:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1974&auto=format');
 background-size:cover;
 background-position:center;
-min-height:45vh;
 
 animation:fadeHero1 60s infinite;
 z-index:-3;
