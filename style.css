@@ -658,4 +658,49 @@ background:#D4AF37;
 color:#000;
 transform:rotate(90deg);
 } 
+/* MOBILE PRODUCT MODAL */
+@media(max-width:768px){
 
+#productModal{
+padding:15px !important;
+}
+
+#productDetails > div{
+
+gap:20px !important;
+
+}
+
+#productDetails img{
+
+max-height:300px !important;
+border-radius:15px !important;
+
+}
+
+#productDetails h1{
+
+font-size:1.6rem !important;
+
+}
+
+#productDetails p{
+
+font-size:0.95rem !important;
+
+}
+
+#productDetails button{
+
+padding:12px !important;
+font-size:0.9rem !important;
+
+}
+
+#productDetails select{
+
+padding:12px !important;
+
+}
+
+}
