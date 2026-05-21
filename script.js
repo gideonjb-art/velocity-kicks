@@ -854,13 +854,13 @@ class="size-select"
 <option value="">Select Size</option>
 
 ${
-Array.isArray(p.sizes)
-? p.sizes.map(size => `
+Array.isArray(product.sizes)
+? product.sizes.map(size => `
 <option value="${size}">
 ${size}
 </option>
 `).join("")
-: (p.sizes || "")
+: (product.sizes || "")
 .split(",")
 .filter(size => size.trim() !== "")
 .map(size => `
