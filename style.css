@@ -728,6 +728,16 @@ font-size:0.9rem !important;
 padding:12px !important;
 
 }
+.navbar a {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+  position: relative;
+}
+
+.navbar a:hover {
+  color: #D4AF37;
+}
 
 }
 .navbar {
