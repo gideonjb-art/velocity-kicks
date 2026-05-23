@@ -532,8 +532,10 @@ return;
 
 /* DISPLAY PRODUCTS */
 grid.innerHTML = filteredProducts.map(p => `
+<div class="product-card reveal"
+     data-brand="${p.brand}"
+     data-category="${p.category}">
 
-<div class="product-card reveal">
 
 <img
 src="${p.image || 'https://via.placeholder.com/300'}"
@@ -999,20 +1001,18 @@ document.getElementById("productModal").style.display = "none";
 }
 function filterBrand(brand){
 
-  // Scroll to products
-  document.getElementById('products')
-    .scrollIntoView({ behavior: 'smooth' });
+  document
+    .getElementById('products')
+    .scrollIntoView({
+      behavior:'smooth'
+    });
 
-  // Get all products
   const products =
     document.querySelectorAll('.product-card');
 
   products.forEach(product => {
 
-    const productBrand =
-      product.dataset.brand;
-
-    if(productBrand === brand){
+    if(product.dataset.brand === brand){
 
       product.style.display = 'block';
 
