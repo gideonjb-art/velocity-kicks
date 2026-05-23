@@ -997,3 +997,31 @@ document.getElementById("productModal").style.display = "block";
 function closeProduct(){
 document.getElementById("productModal").style.display = "none";
 }
+function filterBrand(brand){
+
+  // Scroll to products
+  document.getElementById('products')
+    .scrollIntoView({ behavior: 'smooth' });
+
+  // Get all products
+  const products =
+    document.querySelectorAll('.product-card');
+
+  products.forEach(product => {
+
+    const productBrand =
+      product.dataset.brand;
+
+    if(productBrand === brand){
+
+      product.style.display = 'block';
+
+    } else {
+
+      product.style.display = 'none';
+
+    }
+
+  });
+
+}
