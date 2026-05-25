@@ -1045,7 +1045,7 @@ const brandTypesData = [
   {
     name: "Puma",
     logo: "images/puma-logo.jfif",
-    types: ["Classic", "Lifestyle", "official", ["Running"]
+    types: ["Classic", "Lifestyle", "official", "Running"]
    }
 ];
 
