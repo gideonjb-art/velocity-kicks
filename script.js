@@ -1045,12 +1045,12 @@ const brandTypesData = [
   {
     name: "Puma",
     logo: "images/Puma-logo.jpg",
-    types: ["Classic", "Lifestyle", "official", "Running"]
+    types: ["Classic", "Lifestyle", "Official", "Running"]
    },
    {
      name: "Clarks",
      logo: "images/clarks-logo.jfif",
-     types: ["Formal", "Casual", "official"]
+     types: ["Formal", "Casual", "Official"]
    }
 ];
 
