@@ -1175,3 +1175,241 @@ document.addEventListener('DOMContentLoaded', function() {
     selectBrand(brandTypesData[0].name);
   }
 });
+// Brand data with their shoe types/subheaders
+const brandTypesData = [
+  { 
+    name: "Nike", 
+    logo: "images/nike-logo.jfif",
+    subheaders: ["Running", "Basketball", "Lifestyle", "Training"]
+  },
+  { 
+    name: "Adidas", 
+    logo: "images/adidas-logo.jfif",
+    subheaders: ["Running", "Soccer", "Originals", "Training"]
+  },
+  { 
+    name: "New Balance", 
+    logo: "images/nb-logo.jpg",
+    subheaders: ["Heritage", "Running", "Lifestyle"]
+  }
+];
+
+// Get products grouped by type/subheader from your existing products
+function getProductsGroupedByType(brandName) {
+  // Access your existing products array (shoesDB from your script.js)
+  if (typeof shoesDB === 'undefined') return {};
+  
+  const brandProducts = shoesDB.filter(p => p.brand === brandName);
+  const grouped = {};
+  
+  brandProducts.forEach(product => {
+    // Use the product's type/category or default to "Other"
+    const type = product.type || "Other";
+    if (!grouped[type]) {
+      grouped[type] = [];
+    }
+    grouped[type].push(product);
+  });
+  
+  return grouped;
+}
+
+// Render the brand panel with subheaders
+function renderBrandTypesPanel(brandName) {
+  const panelDiv = document.getElementById('brandTypesPanel');
+  if (!panelDiv) return;
+  
+  const groupedProducts = getProductsGroupedByType(brandName);
+  
+  // Check if there are any products
+  if (Object.keys(groupedProducts).length === 0) {
+    panelDiv.innerHTML = `
+      <div class="brand-types-container">
+        <div class="brand-header">
+          <h3><i class="fas fa-box"></i> ${brandName}</h3>
+          <button class="close-brand-btn" onclick="closeBrandPanel()">✕ Close</button>
+        </div>
+        <div class="empty-types">
+          <i class="fas fa-shoe-prints" style="font-size: 48px; opacity: 0.3;"></i>
+          <p>No products available for ${brandName} yet.</p>
+        </div>
+      </div>
+    `;
+    panelDiv.style.display = 'block';
+    return;
+  }
+  
+  // Build the HTML with subheaders
+  let html = `
+    <div class="brand-types-container">
+      <div class="brand-header">
+        <h3><i class="fas fa-store"></i> ${brandName} Collection</h3>
+        <button class="close-brand-btn" onclick="closeBrandPanel()">✕ Close</button>
+      </div>
+  `;
+  
+  // Get the predefined subheaders for this brand
+  const brandInfo = brandTypesData.find(b => b.name === brandName);
+  const subheadersToShow = brandInfo ? brandInfo.subheaders : Object.keys(groupedProducts);
+  
+  // Loop through subheaders and show products
+  subheadersToShow.forEach(subheader => {
+    const productsInType = groupedProducts[subheader] || [];
+    
+    if (productsInType.length > 0) {
+      const typeId = subheader.replace(/\s/g, '');
+      html += `
+        <div class="type-category">
+          <div class="type-title" onclick="toggleTypeProducts('${typeId}')">
+            <span>
+              <i class="fas ${getTypeIcon(subheader)}"></i>
+              ${subheader}
+              <span style="font-size: 0.7rem; color: #D4AF37;">(${productsInType.length})</span>
+            </span>
+            <i class="fas fa-chevron-down" id="icon-${typeId}"></i>
+          </div>
+          <div class="type-products-grid" id="type-products-${typeId}">
+            ${productsInType.map(product => `
+              <div class="type-product-item" onclick="openProductFromBrand(${product.id})">
+                <img src="${product.image}" alt="${product.name}" onerror="this.src='https://placehold.co/200'">
+                <h4>${product.name}</h4>
+                <div class="price">KSh ${product.price.toLocaleString()}</div>
+                <div class="brand-badge">${product.brand}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+  });
+  
+  // Show any products that don't match predefined subheaders
+  const predefinedSet = new Set(subheadersToShow);
+  const otherProducts = [];
+  Object.keys(groupedProducts).forEach(type => {
+    if (!predefinedSet.has(type) && type !== "Other") {
+      otherProducts.push(...groupedProducts[type]);
+    }
+  });
+  
+  if (otherProducts.length > 0 || groupedProducts["Other"]) {
+    const otherItems = otherProducts.length > 0 ? otherProducts : (groupedProducts["Other"] || []);
+    if (otherItems.length > 0) {
+      const typeId = "Other";
+      html += `
+        <div class="type-category">
+          <div class="type-title" onclick="toggleTypeProducts('${typeId}')">
+            <span>
+              <i class="fas fa-tag"></i>
+              Other Styles
+              <span style="font-size: 0.7rem; color: #D4AF37;">(${otherItems.length})</span>
+            </span>
+            <i class="fas fa-chevron-down" id="icon-${typeId}"></i>
+          </div>
+          <div class="type-products-grid" id="type-products-${typeId}">
+            ${otherItems.map(product => `
+              <div class="type-product-item" onclick="openProductFromBrand(${product.id})">
+                <img src="${product.image}" alt="${product.name}" onerror="this.src='https://placehold.co/200'">
+                <h4>${product.name}</h4>
+                <div class="price">KSh ${product.price.toLocaleString()}</div>
+                <div class="brand-badge">${product.brand}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+  }
+  
+  html += `</div>`;
+  panelDiv.innerHTML = html;
+  panelDiv.style.display = 'block';
+}
+
+// Get icon for different shoe types
+function getTypeIcon(type) {
+  const icons = {
+    'Running': 'fa-running',
+    'Basketball': 'fa-basketball-ball',
+    'Lifestyle': 'fa-heart',
+    'Training': 'fa-dumbbell',
+    'Soccer': 'fa-futbol',
+    'Originals': 'fa-star',
+    'Heritage': 'fa-clock',
+    'Other': 'fa-tag'
+  };
+  return icons[type] || 'fa-shoe-prints';
+}
+
+// Toggle products visibility under a subheader
+window.toggleTypeProducts = function(typeId) {
+  const container = document.getElementById(`type-products-${typeId}`);
+  const icon = document.getElementById(`icon-${typeId}`);
+  
+  if (container) {
+    if (container.classList.contains('show')) {
+      container.classList.remove('show');
+      if (icon) icon.style.transform = 'rotate(0deg)';
+    } else {
+      container.classList.add('show');
+      if (icon) icon.style.transform = 'rotate(180deg)';
+    }
+  }
+};
+
+// Open product modal from brand panel
+window.openProductFromBrand = function(productId) {
+  if (typeof shoesDB !== 'undefined') {
+    const product = shoesDB.find(p => p.id === productId);
+    if (product && typeof openProductModal === 'function') {
+      openProductModal(product);
+    }
+  }
+};
+
+// Close the brand panel
+window.closeBrandPanel = function() {
+  const panelDiv = document.getElementById('brandTypesPanel');
+  if (panelDiv) {
+    panelDiv.style.display = 'none';
+  }
+  
+  // Remove active class from brand chips
+  document.querySelectorAll('.brand-chip').forEach(chip => {
+    chip.classList.remove('active');
+  });
+};
+
+// Select a brand and show its subheaders
+window.selectBrand = function(brandName) {
+  // Update active state in scrollable row
+  document.querySelectorAll('.brand-chip').forEach(chip => {
+    chip.classList.remove('active');
+    if (chip.getAttribute('data-brand') === brandName) {
+      chip.classList.add('active');
+    }
+  });
+  
+  // Render the brand panel with subheaders
+  renderBrandTypesPanel(brandName);
+};
+
+// Build the scrollable brand row
+function buildBrandScrollRow() {
+  const container = document.getElementById('brandScrollRow');
+  if (!container) return;
+  
+  const brandHtml = brandTypesData.map(brand => `
+    <div class="brand-chip" data-brand="${brand.name}" onclick="selectBrand('${brand.name}')">
+      <img src="${brand.logo}" alt="${brand.name}" onerror="this.src='https://placehold.co/60'">
+      <span>${brand.name}</span>
+    </div>
+  `).join('');
+  
+  container.innerHTML = brandHtml;
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  buildBrandScrollRow();
+});
