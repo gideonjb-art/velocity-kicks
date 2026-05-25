@@ -1041,7 +1041,12 @@ const brandTypesData = [
     name: "New Balance", 
     logo: "images/nb-logo.jpg",
     types: ["Heritage", "Retro", "Classic", "Running"]
-  }
+  },
+  {
+    name: "Puma",
+    logo: "images/puma-logo.jfif",
+    types: ["Classic", "Lifestyle", "official", ["Running"]
+   }
 ];
 
 // Get products by brand and type
