@@ -1046,7 +1046,12 @@ const brandTypesData = [
     name: "Puma",
     logo: "images/Puma-logo.jpg",
     types: ["Classic", "Lifestyle", "official", "Running"]
-   }
+   },
+  {
+    name:"",
+    logo:"images/clarks-logo.jfif",
+    type:["Formal", "Casual", "official"]
+  }
 ];
 
 // Get products by brand and type
