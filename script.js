@@ -1180,3 +1180,323 @@ document.addEventListener('DOMContentLoaded', function() {
     selectBrand(brandTypesData[0].name);
   }
 });
+// ============ BRAND DATA ============
+const brandTypesData = [
+  {
+    name: "Nike",
+    logo: "images/nike-logo.jfif",
+    subheaders: ["Running", "Basketball", "Lifestyle", "Training"]
+  },
+
+  {
+    name: "Adidas",
+    logo: "images/adidas-logo.jfif",
+    subheaders: ["Running", "Soccer", "Originals", "Training"]
+  },
+
+  {
+    name: "New Balance",
+    logo: "images/nb-logo.jpg",
+    subheaders: ["Heritage", "Running", "Lifestyle"]
+  }
+];
+
+// GROUP PRODUCTS BY TYPE
+function getProductsGroupedByType(brandName){
+
+  if (!shoesDB || shoesDB.length === 0) {
+    return {};
+  }
+
+  const brandProducts = shoesDB.filter(
+    p => p.brand?.toLowerCase() === brandName.toLowerCase()
+  );
+
+  const grouped = {};
+
+  brandProducts.forEach(product => {
+
+    const type = product.type?.trim() || "Other";
+
+    if (!grouped[type]) {
+      grouped[type] = [];
+    }
+
+    grouped[type].push(product);
+
+  });
+
+  return grouped;
+}
+
+// ICONS
+function getTypeIcon(type){
+
+  const icons = {
+
+    Running: 'fa-person-running',
+
+    Basketball: 'fa-basketball',
+
+    Lifestyle: 'fa-heart',
+
+    Training: 'fa-dumbbell',
+
+    Soccer: 'fa-futbol',
+
+    Originals: 'fa-star',
+
+    Heritage: 'fa-clock',
+
+    Other: 'fa-tag'
+  };
+
+  return icons[type] || 'fa-shoe-prints';
+}
+
+// RENDER PANEL
+function renderBrandTypesPanel(brandName){
+
+  const panelDiv = document.getElementById('brandTypesPanel');
+
+  if (!panelDiv) return;
+
+  const groupedProducts = getProductsGroupedByType(brandName);
+
+  if (Object.keys(groupedProducts).length === 0){
+
+    panelDiv.innerHTML = `
+      <div class="brand-types-container">
+
+        <div class="brand-header">
+
+          <h3>${brandName}</h3>
+
+          <button
+            class="close-brand-btn"
+            onclick="closeBrandPanel()"
+          >
+            ✕ Close
+          </button>
+
+        </div>
+
+        <div class="empty-types">
+
+          <i class="fas fa-shoe-prints"></i>
+
+          <p>No products available yet.</p>
+
+        </div>
+
+      </div>
+    `;
+
+    panelDiv.style.display = 'block';
+
+    return;
+  }
+
+  let html = `
+    <div class="brand-types-container">
+
+      <div class="brand-header">
+
+        <h3>${brandName} Collection</h3>
+
+        <button
+          class="close-brand-btn"
+          onclick="closeBrandPanel()"
+        >
+          ✕ Close
+        </button>
+
+      </div>
+  `;
+
+  const brandInfo = brandTypesData.find(
+    b => b.name === brandName
+  );
+
+  const subheadersToShow =
+    brandInfo?.subheaders || Object.keys(groupedProducts);
+
+  subheadersToShow.forEach(subheader => {
+
+    const productsInType =
+      groupedProducts[subheader] || [];
+
+    if (productsInType.length > 0){
+
+      const typeId =
+        subheader.replace(/\s/g,'');
+
+      html += `
+        <div class="type-category">
+
+          <div
+            class="type-title"
+            onclick="toggleTypeProducts('${typeId}')"
+          >
+
+            <span>
+
+              <i class="fas ${getTypeIcon(subheader)}"></i>
+
+              ${subheader}
+
+            </span>
+
+            <i
+              class="fas fa-chevron-down"
+              id="icon-${typeId}"
+            ></i>
+
+          </div>
+
+          <div
+            class="type-products-grid"
+            id="type-products-${typeId}"
+          >
+
+            ${productsInType.map(product => `
+
+              <div
+                class="type-product-item"
+                onclick="openProduct(${product.id})"
+              >
+
+                <img
+                  src="${product.image}"
+                  alt="${product.name}"
+                  loading="lazy"
+                  onerror="this.src='https://placehold.co/200'"
+                >
+
+                <h4>${product.name}</h4>
+
+                <div class="price">
+                  KSh ${(product.price || 0).toLocaleString()}
+                </div>
+
+                <div class="brand-badge">
+                  ${product.brand}
+                </div>
+
+              </div>
+
+            `).join('')}
+
+          </div>
+
+        </div>
+      `;
+    }
+
+  });
+
+  html += `</div>`;
+
+  panelDiv.innerHTML = html;
+
+  panelDiv.style.display = 'block';
+}
+
+// TOGGLE
+window.toggleTypeProducts = function(typeId){
+
+  const container =
+    document.getElementById(`type-products-${typeId}`);
+
+  const icon =
+    document.getElementById(`icon-${typeId}`);
+
+  if (!container) return;
+
+  container.classList.toggle('show');
+
+  if (icon){
+
+    icon.style.transform =
+      container.classList.contains('show')
+      ? 'rotate(180deg)'
+      : 'rotate(0deg)';
+  }
+};
+
+// CLOSE PANEL
+window.closeBrandPanel = function(){
+
+  const panelDiv =
+    document.getElementById('brandTypesPanel');
+
+  if (panelDiv){
+
+    panelDiv.style.display = 'none';
+  }
+
+  document.querySelectorAll('.brand-chip')
+    .forEach(chip => {
+
+      chip.classList.remove('active');
+
+    });
+};
+
+// SELECT BRAND
+window.selectBrand = function(brandName){
+
+  document.querySelectorAll('.brand-chip')
+    .forEach(chip => {
+
+      chip.classList.remove('active');
+
+      if (
+        chip.getAttribute('data-brand')
+        === brandName
+      ){
+
+        chip.classList.add('active');
+      }
+
+    });
+
+  renderBrandTypesPanel(brandName);
+};
+
+// BUILD ROW
+function buildBrandScrollRow(){
+
+  const container =
+    document.getElementById('brandScrollRow');
+
+  if (!container) return;
+
+  container.innerHTML =
+    brandTypesData.map(brand => `
+
+      <div
+        class="brand-chip"
+        data-brand="${brand.name}"
+        onclick="selectBrand('${brand.name}')"
+      >
+
+        <img
+          src="${brand.logo}"
+          alt="${brand.name}"
+          loading="lazy"
+          onerror="this.src='https://placehold.co/60'"
+        >
+
+        <span>${brand.name}</span>
+
+      </div>
+
+    `).join('');
+}
+
+// INIT
+document.addEventListener(
+  'DOMContentLoaded',
+  buildBrandScrollRow
+);
