@@ -87,51 +87,19 @@ VELOCITY<span>KICKS</span>
 
   </div>
 </section>
-<!-- SHOP BY BRAND -->
+<!-- SHOP BY BRAND - MOBILE SCROLLABLE ROW -->
 <section class="brands-section reveal">
-
   <h2>Shop By Brand</h2>
-
-  <div class="brands-grid">
-
-    <!-- NIKE -->
-    <div class="brand-card" onclick="filterBrand('Nike')">
-
-      <img src="images/nike-logo.jfif" alt="Nike">
-
-      <div class="brand-overlay">
-        <h3>Nike</h3>
-        <p>Street Icons</p>
-      </div>
-
+  
+  <!-- SCROLLABLE BRAND ROW -->
+  <div class="brands-scroll-container">
+    <div class="brands-scroll-row" id="brandScrollRow">
+      <!-- Brands will be injected here by JavaScript -->
     </div>
-
-    <!-- ADIDAS -->
-    <div class="brand-card" onclick="filterBrand('Adidas')">
-
-      <img src="images/adidas-logo.jfif" alt="Adidas">
-
-      <div class="brand-overlay">
-        <h3>Adidas</h3>
-        <p>Urban Performance</p>
-      </div>
-
-    </div>
-
-    <!-- NEW BALANCE -->
-    <div class="brand-card" onclick="filterBrand('New Balance')">
-
-      <img src="images/nb-logo.jpg" alt="New Balance">
-
-      <div class="brand-overlay">
-        <h3>New Balance</h3>
-        <p>Comfort Meets Style</p>
-      </div>
-
-    </div>
-
   </div>
-
+  
+  <!-- EXPANDABLE SHOE TYPES PANEL -->
+  <div id="brandTypesPanel" class="shoe-types-panel" style="display: none;"></div>
 </section>
 <!-- PRODUCTS -->
 <section id="products" class="reveal">
