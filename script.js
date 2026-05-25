@@ -1048,7 +1048,7 @@ const brandTypesData = [
     types: ["Classic", "Lifestyle", "official", "Running"]
    },
   {
-    name:"",
+    name:"Clarks",
     logo:"images/clarks-logo.jfif",
     type:["Formal", "Casual", "official"]
   }
