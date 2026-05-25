@@ -1025,3 +1025,148 @@ function filterBrand(brand){
   });
 
 }
+// Brand data with their shoe types
+const brandTypesData = [
+  { 
+    name: "Nike", 
+    logo: "images/nike-logo.jfif",
+    types: ["Running", "Skate", "Casual", "Basketball"]
+  },
+  { 
+    name: "Adidas", 
+    logo: "images/adidas-logo.jfif",
+    types: ["Running", "Soccer", "Lifestyle", "Training"]
+  },
+  { 
+    name: "New Balance", 
+    logo: "images/nb-logo.jpg",
+    types: ["Heritage", "Retro", "Classic", "Running"]
+  }
+];
+
+// Get products by brand and type
+function getProductsByBrandAndType(brand, type) {
+  // Assuming your shoesDB or products array is accessible
+  // If you're using Supabase, modify this to filter your products
+  if (typeof shoesDB !== 'undefined') {
+    return shoesDB.filter(p => p.brand === brand && p.type === type);
+  }
+  return [];
+}
+
+// Build the scrollable brand row
+function buildBrandScrollRow() {
+  const container = document.getElementById('brandScrollRow');
+  if (!container) return;
+  
+  container.innerHTML = brandTypesData.map(brand => `
+    <div class="brand-chip" data-brand="${brand.name}" onclick="selectBrand('${brand.name}')">
+      <img src="${brand.logo}" alt="${brand.name}" onerror="this.src='https://placehold.co/60'">
+      <span>${brand.name}</span>
+    </div>
+  `).join('');
+}
+
+// Toggle shoe type expansion
+window.toggleTypeProducts = function(type) {
+  const container = document.getElementById(`type-products-${type.replace(/\s/g, '')}`);
+  const icon = document.getElementById(`icon-${type.replace(/\s/g, '')}`);
+  if (container) {
+    container.classList.toggle('show');
+    if (icon) {
+      icon.style.transform = container.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
+  }
+};
+
+// Render shoe types panel for selected brand
+function renderBrandTypesPanel(selectedBrand) {
+  const panelDiv = document.getElementById('brandTypesPanel');
+  if (!panelDiv) return;
+  
+  const brandObj = brandTypesData.find(b => b.name === selectedBrand);
+  if (!brandObj || brandObj.types.length === 0) {
+    panelDiv.style.display = 'none';
+    return;
+  }
+  
+  panelDiv.style.display = 'block';
+  let html = `<div style="padding: 8px 12px;"><strong style="color: #D4AF37;">${selectedBrand} shoe types</strong></div>`;
+  
+  brandObj.types.forEach(type => {
+    const productsOfType = getProductsByBrandAndType(selectedBrand, type);
+    const typeId = type.replace(/\s/g, '');
+    
+    html += `
+      <div class="type-item">
+        <div class="type-header" onclick="toggleTypeProducts('${type}')">
+          <span>👟 ${type}</span> 
+          <i class="fas fa-chevron-down" id="icon-${typeId}"></i>
+        </div>
+        <div class="type-products" id="type-products-${typeId}">
+          ${productsOfType.length > 0 ? 
+            productsOfType.map(p => `
+              <div class="mini-product-card" onclick="viewProductFromBrand(${p.id})">
+                <img src="${p.image}" alt="${p.name}">
+                <h4>${p.name}</h4>
+                <p>KSh ${p.price.toLocaleString()}</p>
+              </div>
+            `).join('') : 
+            '<div style="padding: 12px; color: #aaa; text-align: center;">No shoes available</div>'
+          }
+        </div>
+      </div>
+    `;
+  });
+  
+  panelDiv.innerHTML = html;
+}
+
+// Select a brand
+window.selectBrand = function(brandName) {
+  // Update active state
+  document.querySelectorAll('.brand-chip').forEach(chip => {
+    chip.classList.remove('active');
+    if (chip.getAttribute('data-brand') === brandName) {
+      chip.classList.add('active');
+    }
+  });
+  
+  // Render the shoe types panel
+  renderBrandTypesPanel(brandName);
+};
+
+// View product from brand panel
+window.viewProductFromBrand = function(productId) {
+  // Reuse your existing product modal function
+  if (typeof openProductModal !== 'undefined') {
+    const product = shoesDB.find(p => p.id === productId);
+    if (product) openProductModal(product);
+  }
+};
+
+// Modified filterBrand to work with the new system
+const originalFilterBrand = window.filterBrand;
+window.filterBrand = function(brand) {
+  // First, select the brand in the scrollable row
+  selectBrand(brand);
+  // Then filter products as before
+  if (originalFilterBrand) {
+    originalFilterBrand(brand);
+  } else {
+    // Default filtering
+    if (typeof currentSearch !== 'undefined') {
+      document.getElementById('searchInput').value = brand;
+      if (typeof searchProducts === 'function') searchProducts();
+    }
+  }
+};
+
+// Initialize the brand row when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  buildBrandScrollRow();
+  // Optional: Auto-select first brand
+  if (brandTypesData.length > 0) {
+    selectBrand(brandTypesData[0].name);
+  }
+});
