@@ -1034,12 +1034,12 @@ const brandTypesData = [
   },
   { 
     name: "Adidas", 
-    logo: "images/adidas-logo.jfif",
+    logo: "images/Adidas-logo.jfif",
     types: ["Running", "Soccer", "Lifestyle", "Training"]
   },
   { 
     name: "New Balance", 
-    logo: "images/nb-logo.jpg",
+    logo: "images/nb-logo.jfif",
     types: ["Heritage", "Retro", "Classic", "Running"]
   },
   {
