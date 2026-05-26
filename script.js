@@ -1059,11 +1059,15 @@ function getProductsByBrandAndType(brand, type) {
 
   return products.filter(p => {
 
-    const productBrand =
-      (p.brand || "").toLowerCase();
+   const productBrand =
+  (p.brand || "")
+  .trim()
+  .toLowerCase();
 
-    const productType =
-      (p.type || "").toLowerCase();
+const productType =
+  (p.type || "")
+  .trim()
+  .toLowerCase();
 
     return (
       productBrand === brand.toLowerCase() &&
@@ -1088,15 +1092,29 @@ function buildBrandScrollRow() {
 }
 
 // Toggle shoe type expansion
-window.toggleTypeProducts = function(type) {
-  const container = document.getElementById(`type-products-${type.replace(/\s/g, '')}`);
-  const icon = document.getElementById(`icon-${type.replace(/\s/g, '')}`);
-  if (container) {
+window.toggleTypeProducts = function(typeId) {
+
+  const container =
+    document.getElementById(`type-products-${typeId}`);
+
+  const icon =
+    document.getElementById(`icon-${typeId}`);
+
+  if(container){
+
     container.classList.toggle('show');
-    if (icon) {
-      icon.style.transform = container.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+
+    if(icon){
+
+      icon.style.transform =
+        container.classList.contains('show')
+        ? 'rotate(180deg)'
+        : 'rotate(0deg)';
+
     }
+
   }
+
 };
 
 // Render shoe types panel for selected brand
@@ -1115,11 +1133,13 @@ function renderBrandTypesPanel(selectedBrand) {
   
   brandObj.types.forEach(type => {
     const productsOfType = getProductsByBrandAndType(selectedBrand, type);
-    const typeId = type.replace(/\s/g, '');
+    const typeId = `${selectedBrand}-${type}`
+  .replace(/\s/g, '')
+  .toLowerCase();
     
     html += `
       <div class="type-item">
-        <div class="type-header" onclick="toggleTypeProducts('${type}')">
+        <div class="type-header"onclick="toggleTypeProducts('${typeId}')" >
           <span>👟 ${type}</span> 
           <i class="fas fa-chevron-down" id="icon-${typeId}"></i>
         </div>
