@@ -1163,14 +1163,47 @@ function renderBrandTypesPanel(selectedBrand) {
 }
 
 // Select a brand
+let activeBrand = null;
+
 window.selectBrand = function(brandName) {
-  // Update active state
-  document.querySelectorAll('.brand-chip').forEach(chip => {
-    chip.classList.remove('active');
-    if (chip.getAttribute('data-brand') === brandName) {
-      chip.classList.add('active');
-    }
-  });
+
+  const panelDiv =
+    document.getElementById('brandTypesPanel');
+
+  // CLOSE IF SAME BRAND CLICKED AGAIN
+  if(activeBrand === brandName){
+
+    activeBrand = null;
+
+    panelDiv.style.display = 'none';
+
+    document.querySelectorAll('.brand-chip')
+      .forEach(chip => {
+        chip.classList.remove('active');
+      });
+
+    return;
+  }
+
+  // SET NEW ACTIVE BRAND
+  activeBrand = brandName;
+
+  // UPDATE ACTIVE STYLES
+  document.querySelectorAll('.brand-chip')
+    .forEach(chip => {
+
+      chip.classList.remove('active');
+
+      if(chip.getAttribute('data-brand') === brandName){
+        chip.classList.add('active');
+      }
+
+    });
+
+  // OPEN PANEL
+  renderBrandTypesPanel(brandName);
+
+};
   
   // Render the shoe types panel
   renderBrandTypesPanel(brandName);
