@@ -9,7 +9,7 @@ window.supabaseClient = window.supabase.createClient(
 }
 /* =========================
 CART + WISHLIST SYSTEM
-========================= */
+========================= */ 
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 cart = cart.map(item => ({
@@ -1056,12 +1056,22 @@ const brandTypesData = [
 
 // Get products by brand and type
 function getProductsByBrandAndType(brand, type) {
-  // Assuming your shoesDB or products array is accessible
-  // If you're using Supabase, modify this to filter your products
-  if (typeof shoesDB !== 'undefined') {
-    return shoesDB.filter(p => p.brand === brand && p.type === type);
-  }
-  return [];
+
+  return products.filter(p => {
+
+    const productBrand =
+      (p.brand || "").toLowerCase();
+
+    const productType =
+      (p.type || "").toLowerCase();
+
+    return (
+      productBrand === brand.toLowerCase() &&
+      productType === type.toLowerCase()
+    );
+
+  });
+
 }
 
 // Build the scrollable brand row
@@ -1148,35 +1158,14 @@ window.selectBrand = function(brandName) {
 
 // View product from brand panel
 window.viewProductFromBrand = function(productId) {
-  // Reuse your existing product modal function
-  if (typeof openProductModal !== 'undefined') {
-    const product = shoesDB.find(p => p.id === productId);
-    if (product) openProductModal(product);
-  }
-};
 
-// Modified filterBrand to work with the new system
-const originalFilterBrand = window.filterBrand;
-window.filterBrand = function(brand) {
-  // First, select the brand in the scrollable row
-  selectBrand(brand);
-  // Then filter products as before
-  if (originalFilterBrand) {
-    originalFilterBrand(brand);
-  } else {
-    // Default filtering
-    if (typeof currentSearch !== 'undefined') {
-      document.getElementById('searchInput').value = brand;
-      if (typeof searchProducts === 'function') searchProducts();
-    }
-  }
+  openProduct(productId);
+
 };
 
 // Initialize the brand row when page loads
 document.addEventListener('DOMContentLoaded', function() {
   buildBrandScrollRow();
   // Optional: Auto-select first brand
-  if (brandTypesData.length > 0) {
-    selectBrand(brandTypesData[0].name);
-  }
+
 });
