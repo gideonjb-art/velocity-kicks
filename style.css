@@ -975,3 +975,10 @@ body{
   background:
   radial-gradient(circle at top,#1a1a1a,#050505 60%);
 }
+.brands-section{
+  padding-bottom:20px;
+}
+
+#products{
+  padding-top:20px;
+}
