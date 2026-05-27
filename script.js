@@ -1205,9 +1205,7 @@ window.selectBrand = function(brandName) {
 
 };
   
-  // Render the shoe types panel
-  renderBrandTypesPanel(brandName);
-};
+
 
 // View product from brand panel
 window.viewProductFromBrand = function(productId) {
