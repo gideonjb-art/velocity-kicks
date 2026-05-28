@@ -1220,3 +1220,20 @@ document.addEventListener('DOMContentLoaded', function() {
   // Optional: Auto-select first brand
 
 });
+/* NAVBAR SHRINK ON SCROLL */
+
+const navbar = document.getElementById("navbar");
+
+let scrollTimer;
+
+window.addEventListener("scroll", () => {
+
+  navbar.classList.add("shrink");
+
+  clearTimeout(scrollTimer);
+
+  scrollTimer = setTimeout(() => {
+    navbar.classList.remove("shrink");
+  }, 180);
+
+});
