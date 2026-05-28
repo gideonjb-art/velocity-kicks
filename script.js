@@ -38,11 +38,25 @@ return sum + (Number(item.quantity) || 1);
 
 }, 0);
 
-document.getElementById("cartCount").innerText = totalItems;
+const cartCount =
+document.getElementById("cartCount");
+
+if(!cartCount) return;
+
+cartCount.innerText = totalItems;
 
 }
 function updateWishlistCount(){
-document.getElementById("wishCount").innerText = wishlist.length;
+
+const wishCount =
+document.getElementById("wishCount");
+
+if(!wishCount) return;
+
+wishCount.innerText = wishlist.length;
+
+}
+
 }
 
 /* =========================
