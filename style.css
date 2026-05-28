@@ -1698,7 +1698,10 @@ scale(0.92);
 }
 
 /* HIDE TEXT */
-
+.navbar.shrink .nav-item span{
+opacity:0;
+max-width:0;
+}
 
 /* SMALLER ICON BUTTONS */
 
