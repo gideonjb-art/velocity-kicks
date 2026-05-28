@@ -277,7 +277,84 @@ Qty: ${item.quantity}
 KES ${subtotal}
 
 `;
+/* =========================
+   RECENTLY VIEWED SECTION
+========================= */
 
+if(recentlyViewed.length > 0){
+
+  box.innerHTML += `
+
+  <div style="
+    margin-top:40px;
+  ">
+
+    <h3 style="
+      margin-bottom:15px;
+      color:#D4AF37;
+    ">
+      Recently Viewed
+    </h3>
+
+    <div style="
+      display:flex;
+      gap:15px;
+      overflow-x:auto;
+      padding-bottom:10px;
+    ">
+
+      ${recentlyViewed.map(item => `
+
+        <div
+          onclick="openProduct('${item.id}')"
+          style="
+            min-width:160px;
+            background:#111;
+            border-radius:15px;
+            overflow:hidden;
+            cursor:pointer;
+            flex-shrink:0;
+          "
+        >
+
+          <img
+            src="${item.image}"
+            style="
+              width:100%;
+              height:140px;
+              object-fit:cover;
+            "
+          >
+
+          <div style="padding:10px;">
+
+            <h4 style="
+              margin:0;
+              font-size:0.9rem;
+            ">
+              ${item.name}
+            </h4>
+
+            <p style="
+              color:#D4AF37;
+              margin-top:6px;
+              font-size:0.9rem;
+            ">
+              KES ${item.price}
+            </p>
+
+          </div>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+  </div>
+  `;
+
+}
 
 });
 
