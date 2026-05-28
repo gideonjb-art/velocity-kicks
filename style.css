@@ -1427,7 +1427,7 @@ body{
 }
 
 /* MOBILE */
-@media(max-width:768px{
+@media(max-width:768px){
 
   .brand-chip{
     min-width:120px;
