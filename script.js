@@ -822,6 +822,23 @@ p => String(p.id) === String(id)
 );
 
 if(!product) return;
+  /* =========================
+   RECENTLY VIEWED
+========================= */
+
+// REMOVE IF ALREADY EXISTS
+recentlyViewed = recentlyViewed.filter(
+  item => String(item.id) !== String(product.id)
+);
+
+// ADD TO START
+recentlyViewed.unshift(product);
+
+// LIMIT TO 6 ITEMS
+recentlyViewed = recentlyViewed.slice(0, 6);
+
+// SAVE
+saveRecentlyViewed();
 
 document.getElementById("productDetails").innerHTML = `
 
