@@ -1732,3 +1732,31 @@ padding:10px 14px;
 }
 
 }
+@media(max-width:768px){
+
+  .navbar{
+    bottom:14px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:auto;
+    max-width:95%;
+
+    gap:6px;
+    padding:10px 12px;
+
+    flex-wrap:nowrap;
+  }
+
+  .nav-item{
+    padding:10px;
+    gap:6px;
+  }
+
+  .nav-item span{
+    font-size:0.72rem;
+    max-width:none;
+    opacity:1;
+  }
+
+}
