@@ -1237,3 +1237,12 @@ window.addEventListener("scroll", () => {
   }, 180);
 
 });
+function openContact() {
+
+  document
+    .getElementById("contact")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
