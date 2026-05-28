@@ -1129,3 +1129,97 @@ body{
   }
 
 }
+/* ================================= */
+/* MOBILE OVERFLOW FIX */
+/* ================================= */
+
+html,
+body{
+  width:100%;
+  overflow-x:hidden;
+}
+
+/* Prevent all elements from exceeding screen width */
+*{
+  max-width:100%;
+  box-sizing:border-box;
+}
+
+/* HERO */
+@media(max-width:768px){
+
+  .hero{
+    width:100%;
+    min-height:auto;
+    padding:30px 16px 100px;
+    flex-direction:column;
+    overflow:hidden;
+  }
+
+  .hero-left,
+  .hero-right{
+    width:100%;
+    max-width:100%;
+  }
+
+  .hero-shoe{
+    width:100%;
+    max-width:260px;
+    height:auto;
+  }
+
+  /* NAVBAR */
+  .navbar{
+    width:100%;
+    left:0;
+    right:0;
+    padding:10px 6px;
+    gap:2px;
+    overflow:hidden;
+  }
+
+  .navbar a{
+    min-width:auto;
+    padding:6px 8px;
+    flex:1;
+  }
+
+  .navbar span{
+    font-size:0.6rem;
+  }
+
+  /* PRODUCTS */
+  .products-grid{
+    width:100%;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+
+  .product-card{
+    width:100%;
+  }
+
+  /* BRANDS */
+  .brands-scroll-container{
+    width:100%;
+    overflow-x:auto;
+  }
+
+  .brands-scroll-row{
+    padding-bottom:8px;
+  }
+
+  /* MODAL */
+  #productModal{
+    width:100vw;
+    padding:12px;
+    overflow-x:hidden;
+  }
+
+  /* IMAGES */
+  img{
+    max-width:100%;
+    height:auto;
+  }
+
+}
