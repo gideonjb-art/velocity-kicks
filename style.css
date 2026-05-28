@@ -531,10 +531,6 @@ transform:translateY(-10px);
 font-size:2.3rem;
 }
 
-.navbar{
-flex-wrap:wrap;
-}
-
 .product-grid{
 grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
 }
