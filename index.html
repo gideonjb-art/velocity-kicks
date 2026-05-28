@@ -18,6 +18,7 @@
   gtag('config', 'G-XXXXXXXXXX');
 </script>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/lucide-static@latest/font/lucide.css">
 </head>
 
 <body>
@@ -34,16 +35,29 @@ VELOCITY<span>KICKS</span>
 VELOCITY<span>KICKS</span>
 </div>
 
-<!-- NAV -->
-<div class="navbar">
-<a href="#">Home</a>
-<a href="#products">Collection</a>
-<a href="#contact">Contact</a>
+<nav class="navbar">
 
-<a href="#" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</a>
-<a href="#" onclick="openWishlist()">♡ Wishlist (<span id="wishCount">0</span>)</a>
+  <a href="#home">
+    <i class="icon lucide lucide-house"></i>
+    <span>Home</span>
+  </a>
 
-</div>
+  <a href="#brands">
+    <i class="icon lucide lucide-badge-percent"></i>
+    <span>Brands</span>
+  </a>
+
+  <a href="#products">
+    <i class="icon lucide lucide-shopping-bag"></i>
+    <span>Shop</span>
+  </a>
+
+  <a href="#contact">
+    <i class="icon lucide lucide-phone"></i>
+    <span>Contact</span>
+  </a>
+
+</nav>
 
 <!-- HERO -->
 <section class="hero">
