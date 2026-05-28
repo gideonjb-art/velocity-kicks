@@ -1343,24 +1343,16 @@ body{
 }
 
 /* MOBILE */
-@media(max-width:768px){
+@media(max-width:768px{
 
   .brand-chip{
-    min-width:110px;
-    height:48px;
-
-    padding:0 16px;
+    min-width:120px;
+    height:50px;
   }
-
   .brand-chip img{
-    width:26px;
-    height:26px;
+    height:24px;
+    max-width:55px;
   }
-
-  .brand-chip span{
-    font-size:0.85rem;
-  }
-
 }
 /* TYPES PANEL */
 .shoe-types-panel{
