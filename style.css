@@ -1289,10 +1289,10 @@ body{
 
   flex-shrink:0;
 
-  min-width:120px;
-  height:52px;
+  min-width:130px;
+  height:54px;
 
-  padding:0 18px;
+  padding:0 20px;
 
   border-radius:50px;
 
@@ -1309,6 +1309,8 @@ body{
 .brand-chip img{
   width:auto;
   height:28px;
+
+  max-width:60px;
 
   object-fit:contain;
 
