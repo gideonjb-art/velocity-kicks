@@ -1351,3 +1351,87 @@ function openProduct(){
   document.getElementById("productModal").style.display = "block";
 
 }
+/* =========================
+   CLOSE EVERYTHING
+========================= */
+
+function closeAllPanels(){
+
+  // CART
+  document.getElementById("cartModal").style.display = "none";
+
+  // WISHLIST
+  document.getElementById("wishlistModal").style.display = "none";
+
+  // PRODUCT
+  document.getElementById("productModal").style.display = "none";
+
+}
+
+/* =========================
+   HOME
+========================= */
+
+function openHome(){
+
+  closeAllPanels();
+
+  document.getElementById("home").scrollIntoView({
+    behavior:"smooth"
+  });
+
+}
+
+/* =========================
+   CART
+========================= */
+
+function openCart(){
+
+  // CLOSE WISHLIST FIRST
+  closeAllPanels();
+
+  // OPEN CART
+  document.getElementById("cartModal").style.display = "block";
+
+}
+
+function closeCart(){
+
+  document.getElementById("cartModal").style.display = "none";
+
+}
+
+/* =========================
+   WISHLIST
+========================= */
+
+function openWishlist(){
+
+  // CLOSE CART FIRST
+  closeAllPanels();
+
+  // OPEN WISHLIST
+  document.getElementById("wishlistModal").style.display = "block";
+
+}
+
+function closeWishlist(){
+
+  document.getElementById("wishlistModal").style.display = "none";
+
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+function openContact(){
+
+  closeAllPanels();
+
+  document.getElementById("contact").scrollIntoView({
+    behavior:"smooth"
+  });
+
+}
