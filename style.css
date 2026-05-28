@@ -1223,3 +1223,109 @@ body{
   }
 
 }
+/* ================================= */
+/* BRANDS SECTION */
+/* ================================= */
+
+.brands-section{
+  position:relative;
+
+  padding:60px 5% 30px;
+
+  background:
+  linear-gradient(
+    to bottom,
+    #0a0a0a,
+    #070707
+  );
+}
+
+/* subtle blend glow */
+.brands-section::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  radial-gradient(
+    circle at top,
+    rgba(212,175,55,0.05),
+    transparent 60%
+  );
+
+  pointer-events:none;
+}
+
+/* TITLE */
+.brands-section h2{
+  text-align:center;
+  margin-bottom:28px;
+
+  font-size:2rem;
+  font-weight:700;
+
+  color:#f5f5f5;
+}
+
+/* BRAND CHIPS */
+.brand-chip{
+  background:rgba(255,255,255,0.03);
+
+  border:1px solid rgba(255,255,255,0.05);
+
+  backdrop-filter:blur(10px);
+
+  border-radius:50px;
+
+  transition:0.3s ease;
+}
+
+.brand-chip:hover{
+  background:rgba(255,255,255,0.05);
+
+  transform:translateY(-2px);
+}
+
+.brand-chip.active{
+  background:
+  linear-gradient(
+    180deg,
+    rgba(212,175,55,0.22),
+    rgba(212,175,55,0.08)
+  );
+
+  border-color:
+  rgba(212,175,55,0.35);
+}
+
+/* TYPES PANEL */
+.shoe-types-panel{
+  background:rgba(255,255,255,0.02);
+
+  border:1px solid rgba(255,255,255,0.04);
+
+  backdrop-filter:blur(12px);
+
+  border-radius:24px;
+}
+
+/* TYPE HEADER */
+.type-header{
+  background:rgba(255,255,255,0.025);
+
+  border:1px solid rgba(255,255,255,0.04);
+
+  color:#f1f1f1;
+}
+
+/* PRODUCTS */
+.mini-product-card{
+  background:rgba(255,255,255,0.03);
+
+  border:1px solid rgba(255,255,255,0.04);
+}
+
+.mini-product-card img{
+  background:#101010;
+}
