@@ -1784,3 +1784,18 @@ padding:10px 14px;
   }
 
 }
+/* FIX MOBILE HOME BUTTON */
+
+.hero{
+  position:relative;
+  z-index:1;
+}
+
+.navbar{
+  z-index:999999;
+}
+
+.nav-item{
+  position:relative;
+  z-index:999999;
+}
