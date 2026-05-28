@@ -1799,3 +1799,73 @@ padding:10px 14px;
   position:relative;
   z-index:999999;
 }
+/* ================================= */
+/* AGGRESSIVE MOBILE NAVBAR SHRINK */
+/* ================================= */
+
+@media (max-width:768px){
+
+  /* NORMAL STATE */
+  .navbar{
+    width:92%;
+    max-width:92%;
+
+    padding:8px 6px;
+    gap:2px;
+
+    border-radius:24px;
+  }
+
+  .nav-item{
+    flex:1;
+
+    padding:8px 2px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    gap:3px;
+  }
+
+  .nav-item .icon{
+    font-size:1rem;
+  }
+
+  .nav-item span{
+    font-size:0.55rem;
+    line-height:1;
+  }
+
+  /* SHRUNK STATE */
+  .navbar.shrink{
+    width:auto;
+
+    padding:6px;
+    gap:0;
+
+    border-radius:999px;
+
+    transform:
+    translateX(-50%)
+    scale(0.82);
+  }
+
+  .navbar.shrink .nav-item{
+    padding:8px;
+    flex:none;
+  }
+
+  .navbar.shrink .nav-item span{
+    opacity:0;
+    max-width:0;
+    width:0;
+    overflow:hidden;
+  }
+
+  .navbar.shrink .nav-item .icon{
+    font-size:0.95rem;
+  }
+
+}
