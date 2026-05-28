@@ -1307,12 +1307,14 @@ body{
 
 /* LOGO */
 .brand-chip img{
-  width:30px;
-  height:30px;
+  width:auto;
+  height:28px;
 
   object-fit:contain;
 
   flex-shrink:0;
+  
+  display:block;
 }
 
 /* TEXT */
