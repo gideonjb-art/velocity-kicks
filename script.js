@@ -1224,17 +1224,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const navbar = document.getElementById("navbar");
 
-let scrollTimer;
+let scrollTimeout;
 
 window.addEventListener("scroll", () => {
 
+  /* SHRINK IMMEDIATELY */
   navbar.classList.add("shrink");
 
-  clearTimeout(scrollTimer);
+  /* RESET TIMER */
+  clearTimeout(scrollTimeout);
 
-  scrollTimer = setTimeout(() => {
+  /* EXPAND WHEN SCROLLING STOPS */
+  scrollTimeout = setTimeout(() => {
+
     navbar.classList.remove("shrink");
-  }, 180);
+
+  }, 220);
 
 });
 function openContact() {
