@@ -57,7 +57,6 @@ wishCount.innerText = wishlist.length;
 
 }
 
-}
 
 /* =========================
 CART FUNCTIONS
