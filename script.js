@@ -1264,3 +1264,90 @@ function openContact() {
     });
 
 }
+/* =========================
+   CLOSE EVERYTHING
+========================= */
+
+function closeAllPanels(){
+
+  // CART
+  const cartModal = document.getElementById("cartModal");
+  if(cartModal){
+    cartModal.style.display = "none";
+  }
+
+  // WISHLIST
+  const wishlistModal = document.getElementById("wishlistModal");
+  if(wishlistModal){
+    wishlistModal.style.display = "none";
+  }
+
+  // PRODUCT MODAL
+  const productModal = document.getElementById("productModal");
+  if(productModal){
+    productModal.style.display = "none";
+  }
+
+}
+
+/* =========================
+   CART
+========================= */
+
+function openCart(){
+
+  closeAllPanels();
+
+  document.getElementById("cartModal").style.display = "block";
+
+}
+
+function closeCart(){
+
+  document.getElementById("cartModal").style.display = "none";
+
+}
+
+/* =========================
+   WISHLIST
+========================= */
+
+function openWishlist(){
+
+  closeAllPanels();
+
+  document.getElementById("wishlistModal").style.display = "block";
+
+}
+
+function closeWishlist(){
+
+  document.getElementById("wishlistModal").style.display = "none";
+
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+function openContact(){
+
+  closeAllPanels();
+
+  document.getElementById("contact").scrollIntoView({
+    behavior:"smooth"
+  });
+
+}
+
+/* =========================
+   PRODUCT MODAL
+========================= */
+
+function openProduct(){
+
+  closeAllPanels();
+
+  document.getElementById("productModal").style.display = "block";
+
+}
