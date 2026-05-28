@@ -1024,3 +1024,53 @@ body{
 
   z-index:1;
 }
+/* MOBILE HERO FIX */
+@media (max-width:768px){
+
+  .hero{
+    min-height:55vh;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+
+    padding:40px 20px 30px;
+    gap:20px;
+  }
+
+  .hero-left{
+    max-width:100%;
+  }
+
+  .hero-right{
+    width:100%;
+  }
+
+  .hero-shoe{
+    width:280px;
+    max-width:85%;
+  }
+
+  .hero h1{
+    font-size:2rem;
+    line-height:1.1;
+    margin-bottom:10px;
+  }
+
+  .hero p{
+    font-size:0.9rem;
+    max-width:320px;
+    margin:auto;
+  }
+
+  .hero::before{
+    width:260px;
+    height:260px;
+    right:50%;
+    transform:translate(50%,-50%);
+  }
+
+  .hero::after{
+    height:90px;
+  }
+
+}
