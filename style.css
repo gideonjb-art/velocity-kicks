@@ -1869,3 +1869,10 @@ padding:10px 14px;
   }
 
 }
+/* SMOOTH PANEL TRANSITIONS */
+
+#cartModal,
+#wishlistModal,
+#productModal{
+  transition:opacity 0.25s ease;
+}
