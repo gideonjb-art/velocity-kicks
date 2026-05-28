@@ -226,57 +226,6 @@ border-top:1px solid rgba(255,255,255,0.1);
 margin-top:20px;
 border-radius:15px;
 ">
-
-<h2 style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-">
-<span>Total</span>
-<span style="color:#D4AF37;">
-KES ${total}
-</span>
-</h2>
-
-<button
-onclick="checkoutCart()"
-style="
-padding:15px;
-font-size:1rem;
-border-radius:12px;
-font-weight:bold;
-">
-Checkout • KES ${total}
-</button>
-
-</div>
-`;
-
-}
-window.checkoutCart = function(){
-
-if(cart.length === 0){
-alert("Your cart is empty");
-return;
-}
-
-let message = "*VELOCITY KICKS ORDER* 🛒\n\n";
-
-let total = 0;
-
-cart.forEach(item => {
-
-const subtotal = item.price * item.quantity;
-
-total += subtotal;
-message += `
-👟 ${item.name}
-📏 Size: ${item.size}
-Qty: ${item.quantity}
-KES ${subtotal}
-
-`;
 /* =========================
    RECENTLY VIEWED SECTION
 ========================= */
@@ -355,6 +304,58 @@ if(recentlyViewed.length > 0){
   `;
 
 }
+
+<h2 style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+">
+<span>Total</span>
+<span style="color:#D4AF37;">
+KES ${total}
+</span>
+</h2>
+
+<button
+onclick="checkoutCart()"
+style="
+padding:15px;
+font-size:1rem;
+border-radius:12px;
+font-weight:bold;
+">
+Checkout • KES ${total}
+</button>
+
+</div>
+`;
+
+}
+window.checkoutCart = function(){
+
+if(cart.length === 0){
+alert("Your cart is empty");
+return;
+}
+
+let message = "*VELOCITY KICKS ORDER* 🛒\n\n";
+
+let total = 0;
+
+cart.forEach(item => {
+
+const subtotal = item.price * item.quantity;
+
+total += subtotal;
+message += `
+👟 ${item.name}
+📏 Size: ${item.size}
+Qty: ${item.quantity}
+KES ${subtotal}
+
+`;
+
 
 });
 
