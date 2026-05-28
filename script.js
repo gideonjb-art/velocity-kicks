@@ -1255,35 +1255,32 @@ window.addEventListener("scroll", () => {
   }, 220);
 
 });
-function openContact() {
-
-  document
-    .getElementById("contact")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
-
-}
 /* =========================
-   CLOSE EVERYTHING
+   PANEL + NAVIGATION SYSTEM
 ========================= */
 
 function closeAllPanels(){
 
   // CART
-  const cartModal = document.getElementById("cartModal");
+  const cartModal =
+    document.getElementById("cartModal");
+
   if(cartModal){
     cartModal.style.display = "none";
   }
 
   // WISHLIST
-  const wishlistModal = document.getElementById("wishlistModal");
+  const wishlistModal =
+    document.getElementById("wishlistModal");
+
   if(wishlistModal){
     wishlistModal.style.display = "none";
   }
 
   // PRODUCT MODAL
-  const productModal = document.getElementById("productModal");
+  const productModal =
+    document.getElementById("productModal");
+
   if(productModal){
     productModal.style.display = "none";
   }
@@ -1291,147 +1288,94 @@ function closeAllPanels(){
 }
 
 /* =========================
-   CART
+   HOME
 ========================= */
 
-function openCart(){
+window.openHome = function(){
 
   closeAllPanels();
 
-  document.getElementById("cartModal").style.display = "block";
+  document
+    .getElementById("home")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
 
-}
-
-function closeCart(){
-
-  document.getElementById("cartModal").style.display = "none";
-
-}
-
-/* =========================
-   WISHLIST
-========================= */
-
-function openWishlist(){
-
-  closeAllPanels();
-
-  document.getElementById("wishlistModal").style.display = "block";
-
-}
-
-function closeWishlist(){
-
-  document.getElementById("wishlistModal").style.display = "none";
-
-}
+};
 
 /* =========================
    CONTACT
 ========================= */
 
-function openContact(){
+window.openContact = function(){
 
   closeAllPanels();
 
-  document.getElementById("contact").scrollIntoView({
-    behavior:"smooth"
-  });
+  document
+    .getElementById("contact")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
 
-}
+};
+
+/* =========================
+   CART
+========================= */
+
+window.openCart = function(){
+
+  // CLOSE EVERYTHING FIRST
+  closeAllPanels();
+
+  // RENDER CART
+  renderCart();
+
+  // OPEN CART
+  document.getElementById("cartModal")
+    .style.display = "block";
+
+};
+
+window.closeCart = function(){
+
+  document.getElementById("cartModal")
+    .style.display = "none";
+
+};
+
+/* =========================
+   WISHLIST
+========================= */
+
+window.openWishlist = function(){
+
+  // CLOSE EVERYTHING FIRST
+  closeAllPanels();
+
+  // RENDER WISHLIST
+  renderWishlist();
+
+  // OPEN WISHLIST
+  document.getElementById("wishlistModal")
+    .style.display = "block";
+
+};
+
+window.closeWishlist = function(){
+
+  document.getElementById("wishlistModal")
+    .style.display = "none";
+
+};
 
 /* =========================
    PRODUCT MODAL
 ========================= */
 
-function openProduct(){
+window.closeProduct = function(){
 
-  closeAllPanels();
+  document.getElementById("productModal")
+    .style.display = "none";
 
-  document.getElementById("productModal").style.display = "block";
-
-}
-/* =========================
-   CLOSE EVERYTHING
-========================= */
-
-function closeAllPanels(){
-
-  // CART
-  document.getElementById("cartModal").style.display = "none";
-
-  // WISHLIST
-  document.getElementById("wishlistModal").style.display = "none";
-
-  // PRODUCT
-  document.getElementById("productModal").style.display = "none";
-
-}
-
-/* =========================
-   HOME
-========================= */
-
-function openHome(){
-
-  closeAllPanels();
-
-  document.getElementById("home").scrollIntoView({
-    behavior:"smooth"
-  });
-
-}
-
-/* =========================
-   CART
-========================= */
-
-function openCart(){
-
-  // CLOSE WISHLIST FIRST
-  closeAllPanels();
-
-  // OPEN CART
-  document.getElementById("cartModal").style.display = "block";
-
-}
-
-function closeCart(){
-
-  document.getElementById("cartModal").style.display = "none";
-
-}
-
-/* =========================
-   WISHLIST
-========================= */
-
-function openWishlist(){
-
-  // CLOSE CART FIRST
-  closeAllPanels();
-
-  // OPEN WISHLIST
-  document.getElementById("wishlistModal").style.display = "block";
-
-}
-
-function closeWishlist(){
-
-  document.getElementById("wishlistModal").style.display = "none";
-
-}
-
-/* =========================
-   CONTACT
-========================= */
-
-function openContact(){
-
-  closeAllPanels();
-
-  document.getElementById("contact").scrollIntoView({
-    behavior:"smooth"
-  });
-
-}
+};
