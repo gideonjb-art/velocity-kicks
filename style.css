@@ -1384,3 +1384,111 @@ body{
 .mini-product-card img{
   background:#101010;
 }
+/* NAVBAR */
+.navbar{
+position:fixed;
+bottom:25px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+align-items:center;
+gap:12px;
+
+padding:14px 22px;
+
+background:rgba(20,20,20,0.75);
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,0.08);
+
+border-radius:60px;
+
+z-index:9999;
+
+transition:
+all 0.35s ease,
+width 0.35s ease,
+padding 0.35s ease;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* NAV ITEMS */
+.nav-item{
+display:flex;
+align-items:center;
+gap:10px;
+
+text-decoration:none;
+color:white;
+
+padding:10px 16px;
+border-radius:40px;
+
+transition:all 0.3s ease;
+white-space:nowrap;
+}
+
+.nav-item:hover{
+background:rgba(255,255,255,0.08);
+transform:translateY(-2px);
+}
+
+/* ICONS */
+.nav-item .icon{
+font-size:1.2rem;
+}
+
+/* TEXT */
+.nav-item span{
+font-size:0.92rem;
+font-weight:600;
+
+transition:
+opacity 0.3s ease,
+width 0.3s ease;
+}
+
+/* SHRINK STATE */
+.navbar.shrink{
+padding:12px;
+gap:0;
+border-radius:100px;
+}
+
+/* HIDE TEXT WHEN SHRUNK */
+.navbar.shrink .nav-item span{
+opacity:0;
+width:0;
+overflow:hidden;
+}
+
+/* SMALLER BUTTONS */
+.navbar.shrink .nav-item{
+padding:12px;
+}
+
+/* ACTIVE ICON */
+.nav-item.active{
+background:#D4AF37;
+color:black;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.navbar{
+bottom:15px;
+padding:12px 16px;
+}
+
+.nav-item{
+padding:10px 12px;
+}
+
+.nav-item .icon{
+font-size:1.1rem;
+}
+
+}
