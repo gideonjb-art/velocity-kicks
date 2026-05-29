@@ -908,6 +908,48 @@ saveCart();
 renderCart();
 
 };
+function renderRecentlyViewed(){
+
+const container =
+document.getElementById("recentlyViewedGrid");
+
+if(!container) return;
+
+container.innerHTML =
+recentlyViewed.map(product => `
+
+<div
+onclick="openProduct('${product.id}')"
+style="
+background:#111;
+border-radius:15px;
+overflow:hidden;
+cursor:pointer;
+min-width:180px;
+"
+>
+
+<img
+src="${product.image}"
+style="
+width:100%;
+height:180px;
+object-fit:cover;
+"
+>
+
+<div style="padding:10px;">
+<h4>${product.name}</h4>
+<p style="color:#D4AF37;">
+KES ${product.price}
+</p>
+</div>
+
+</div>
+
+`).join("");
+
+}
 window.openProduct = function(id){
 
 const product = products.find(
