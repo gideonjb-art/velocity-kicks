@@ -317,6 +317,85 @@ window.removeFromWishlist = function(id){
 wishlist = wishlist.filter(i => String(i.id) !== String(id));
 saveWishlist();
 renderWishlist();
+/* =========================
+   RECENTLY VIEWED UI
+========================= */
+
+function renderRecentlyViewed(){
+
+const container =
+document.getElementById("recentlyViewedGrid");
+
+if(!container) return;
+
+/* EMPTY */
+if(recentlyViewed.length === 0){
+
+container.innerHTML = `
+<p style="
+color:#888;
+padding:20px;
+text-align:center;
+width:100%;
+">
+No recently viewed products
+</p>
+`;
+
+return;
+
+}
+
+/* RENDER */
+container.innerHTML = recentlyViewed.map(product => `
+
+<div
+onclick="openProduct('${product.id}')"
+style="
+background:#111;
+border-radius:15px;
+overflow:hidden;
+min-width:180px;
+cursor:pointer;
+transition:0.3s;
+"
+>
+
+<img
+src="${product.image}"
+alt="${product.name}"
+style="
+width:100%;
+height:180px;
+object-fit:cover;
+"
+onerror="this.src='https://via.placeholder.com/300'"
+>
+
+<div style="padding:12px;">
+
+<h4 style="
+margin:0 0 8px;
+font-size:0.95rem;
+">
+${product.name}
+</h4>
+
+<p style="
+margin:0;
+color:#D4AF37;
+font-weight:bold;
+">
+KES ${product.price}
+</p>
+
+</div>
+
+</div>
+
+`).join("");
+
+}  
 };
 
  window.moveToCart = function(id){
@@ -771,7 +850,7 @@ window.addEventListener("load", () => {
 loadProducts();
 initShop();
 revealOnScroll();
-
+renderRecentlyViewed();
 
 document.querySelectorAll(".reveal").forEach(el => {
 el.classList.add("active");
@@ -839,6 +918,7 @@ recentlyViewed = recentlyViewed.slice(0, 6);
 
 // SAVE
 saveRecentlyViewed();
+renderRecentlyViewed();
 
 document.getElementById("productDetails").innerHTML = `
 
