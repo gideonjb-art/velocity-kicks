@@ -843,7 +843,17 @@ el.classList.add("active");
 
 }
 
-window.addEventListener("scroll", revealOnScroll);
+let revealTimeout;
+
+window.addEventListener("scroll", () => {
+
+clearTimeout(revealTimeout);
+
+revealTimeout = setTimeout(() => {
+revealOnScroll();
+}, 50);
+
+});
 
 /* INIT */
 window.addEventListener("load", () => {
