@@ -869,15 +869,19 @@ el.classList.add("active");
 });
 
 /* REMOVE SPLASH */
-setTimeout(() => {
-document.getElementById("splash")?.remove();
-}, 3000);
+let realtimeTimeout;
+
 window.supabaseClient
 .channel('products-channel')
-.on('postgres_changes',
+.on(
+'postgres_changes',
 { event: '*', schema: 'public', table: 'products' },
-payload => {
-loadProducts();
+() => {
+
+clearTimeout(realtimeTimeout);
+
+realtimeTimeout = setTimeout(loadProducts, 500);
+
 }
 )
 .subscribe();
