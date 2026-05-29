@@ -1876,3 +1876,16 @@ padding:10px 14px;
 #productModal{
   transition:opacity 0.25s ease;
 }
+.recently-viewed-section{
+margin-top:60px;
+padding:20px;
+}
+
+#recentlyViewedGrid::-webkit-scrollbar{
+height:6px;
+}
+
+#recentlyViewedGrid::-webkit-scrollbar-thumb{
+background:#333;
+border-radius:10px;
+}
