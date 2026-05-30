@@ -1231,11 +1231,11 @@ const brandTypesData = [
   },
   {
     name: "Puma",
-    logo: "images/Puma-logo.jpg",
+    logo: "images/Puma-logo.jpg"
    },
    {
      name: "Clarks",
-     logo: "images/clarks-logo.jfif",
+     logo: "images/clarks-logo.jfif"
    },
   {
     name: "Jordan",
