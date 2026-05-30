@@ -50,7 +50,7 @@ return sum + (Number(item.quantity) || 1);
 }, 0);
 
 const cartCount =
-document.ElementById("cartCount");
+document.getElementById("cartCount");
 
 if(!cartCount) return;
 
@@ -60,7 +60,7 @@ cartCount.innerText = totalItems;
 function updateWishlistCount(){
 
 const wishCount =
-document.ElementById("wishCount");
+document.getElementById("wishCount");
 
 if(!wishCount) return;
 
@@ -81,8 +81,8 @@ p => String(p.id) === String(id)
 if(!product) return;
 
 const selectedSize =
-document.ElementById(`modal-size-${id}`)?.value ||
-document.ElementById(`size-${id}`)?.value;
+document.getElementById(`modal-size-${id}`)?.value ||
+document.getElementById(`size-${id}`)?.value;
 
 if(!selectedSize){
 alert("Please select a shoe size");
@@ -121,16 +121,16 @@ alert(`Added Size ${selectedSize} to cart`);
 
 window.openCart = function(){
 renderCart();
-document.ElementById("cartModal").style.display = "block";
+document.getElementById("cartModal").style.display = "block";
 }
 
 window.closeCart = function(){
-document.ElementById("cartModal").style.display = "none";
+document.getElementById("cartModal").style.display = "none";
 }
 
 function renderCart(){
 
-const box = document.ElementById("cartItems");
+const box = document.getElementById("cartItems");
 
 if(cart.length === 0){
 
@@ -324,7 +324,7 @@ renderWishlist();
 function renderRecentlyViewed(){
 
 const container =
-document.ElementById("recentlyViewedGrid");
+document.getElementById("recentlyViewedGrid");
 
 if(!container) return;
 
@@ -427,19 +427,19 @@ alert("Moved to cart 🛒");
 
 /* WISHLIST UI */
 window.openWishlist = function(){
-document.ElementById("wishlistModal").style.display = "block";
+document.getElementById("wishlistModal").style.display = "block";
 renderWishlist();
 }
 
 window.closeWishlist = function(){
-document.ElementById("wishlistModal").style.display = "none";
+document.getElementById("wishlistModal").style.display = "none";
 }
 window.closeProduct = function(){
-document.ElementById("productModal").style.display = "none";
+document.getElementById("productModal").style.display = "none";
 }
 function renderWishlist(){
 
-const box = document.ElementById("wishlistItems");
+const box = document.getElementById("wishlistItems");
 
 if(wishlist.length === 0){
 box.innerHTML = "<p>No wishlist items</p>";
