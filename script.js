@@ -578,6 +578,19 @@ function renderProducts(){
 const grid = document.getElementById("productGrid");
   
 let filteredProducts = [...products];
+ /* BRAND FILTER */
+
+if(activeBrand){
+
+  filteredProducts = filteredProducts.filter(product =>
+
+    (product.brand || "")
+      .trim()
+      .toLowerCase() === activeBrand.toLowerCase()
+
+  );
+
+} 
 
 /* CATEGORY FILTER */
 if(currentCategory !== "all"){
@@ -1246,25 +1259,42 @@ function buildBrandScrollRow() {
 // Select a brand
 let activeBrand = null;
 
-window.selectBrand = function(brandName) {
+window.selectBrand = function(brandName){
 
-  const panelDiv =
-    document.getElementById('brandTypesPanel');
+  document
+    .getElementById("products")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
 
-  // CLOSE IF SAME BRAND CLICKED AGAIN
+  // Click same brand again = show all products
   if(activeBrand === brandName){
 
     activeBrand = null;
 
-    panelDiv.style.display = 'none';
+    document.querySelectorAll(".brand-chip")
+      .forEach(chip => chip.classList.remove("active"));
 
-    document.querySelectorAll('.brand-chip')
-      .forEach(chip => {
-        chip.classList.remove('active');
-      });
+    renderProducts();
 
     return;
   }
+
+  activeBrand = brandName;
+
+  document.querySelectorAll(".brand-chip")
+    .forEach(chip => {
+
+      chip.classList.remove("active");
+
+      if(chip.dataset.brand === brandName){
+        chip.classList.add("active");
+      }
+
+    });
+
+  renderProducts();
+};
 
   // SET NEW ACTIVE BRAND
   activeBrand = brandName;
