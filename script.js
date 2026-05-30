@@ -1298,27 +1298,6 @@ window.selectBrand = function(brandName){
   renderProducts();
 };
 
-  // SET NEW ACTIVE BRAND
-  activeBrand = brandName;
-
-  // UPDATE ACTIVE STYLES
-  document.querySelectorAll('.brand-chip')
-    .forEach(chip => {
-
-      chip.classList.remove('active');
-
-      if(chip.getAttribute('data-brand') === brandName){
-        chip.classList.add('active');
-      }
-
-    });
-
-  // OPEN PANEL
-  renderBrandTypesPanel(brandName);
-
-};
-  
-
 
 // Initialize the brand row when page loads
 document.addEventListener('DOMContentLoaded', function() {
