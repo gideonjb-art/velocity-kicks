@@ -18,7 +18,7 @@ quantity: Number(item.quantity) || 1
 }));
 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 let recentlyViewed =
-JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+JSON.parse(localStorage.Item("recentlyViewed")) || [];
 
 /* SAVE FUNCTIONS */
 function saveCart(){
@@ -50,7 +50,7 @@ return sum + (Number(item.quantity) || 1);
 }, 0);
 
 const cartCount =
-document.getElementById("cartCount");
+document.ElementById("cartCount");
 
 if(!cartCount) return;
 
@@ -60,7 +60,7 @@ cartCount.innerText = totalItems;
 function updateWishlistCount(){
 
 const wishCount =
-document.getElementById("wishCount");
+document.ElementById("wishCount");
 
 if(!wishCount) return;
 
@@ -81,8 +81,8 @@ p => String(p.id) === String(id)
 if(!product) return;
 
 const selectedSize =
-document.getElementById(`modal-size-${id}`)?.value ||
-document.getElementById(`size-${id}`)?.value;
+document.ElementById(`modal-size-${id}`)?.value ||
+document.ElementById(`size-${id}`)?.value;
 
 if(!selectedSize){
 alert("Please select a shoe size");
@@ -121,16 +121,16 @@ alert(`Added Size ${selectedSize} to cart`);
 
 window.openCart = function(){
 renderCart();
-document.getElementById("cartModal").style.display = "block";
+document.ElementById("cartModal").style.display = "block";
 }
 
 window.closeCart = function(){
-document.getElementById("cartModal").style.display = "none";
+document.ElementById("cartModal").style.display = "none";
 }
 
 function renderCart(){
 
-const box = document.getElementById("cartItems");
+const box = document.ElementById("cartItems");
 
 if(cart.length === 0){
 
@@ -324,7 +324,7 @@ renderWishlist();
 function renderRecentlyViewed(){
 
 const container =
-document.getElementById("recentlyViewedGrid");
+document.ElementById("recentlyViewedGrid");
 
 if(!container) return;
 
@@ -427,19 +427,19 @@ alert("Moved to cart 🛒");
 
 /* WISHLIST UI */
 window.openWishlist = function(){
-document.getElementById("wishlistModal").style.display = "block";
+document.ElementById("wishlistModal").style.display = "block";
 renderWishlist();
 }
 
 window.closeWishlist = function(){
-document.getElementById("wishlistModal").style.display = "none";
+document.ElementById("wishlistModal").style.display = "none";
 }
 window.closeProduct = function(){
-document.getElementById("productModal").style.display = "none";
+document.ElementById("productModal").style.display = "none";
 }
 function renderWishlist(){
 
-const box = document.getElementById("wishlistItems");
+const box = document.ElementById("wishlistItems");
 
 if(wishlist.length === 0){
 box.innerHTML = "<p>No wishlist items</p>";
@@ -1206,54 +1206,29 @@ function filterBrand(brand){
 const brandTypesData = [
   { 
     name: "Nike", 
-    logo: "images/nike-logo.jfif",
-    types: ["Running", "Skate", "Casual", "Basketball"]
+    logo: "images/nike-logo.jfif"
   },
   { 
     name: "Adidas", 
-    logo: "images/Adidas-logo.jfif",
-    types: ["Running", "Soccer", "Lifestyle", "Training"]
+    logo: "images/Adidas-logo.jfif"
   },
   { 
     name: "New Balance", 
-    logo: "images/nb-logo.jfif",
-    types: ["Heritage", "Retro", "Classic", "Running"]
+    logo: "images/nb-logo.jfif"
   },
   {
     name: "Puma",
     logo: "images/Puma-logo.jpg",
-    types: ["Classic", "Lifestyle", "Official", "Running"]
    },
    {
      name: "Clarks",
      logo: "images/clarks-logo.jfif",
-     types: ["Formal", "Casual", "Official"]
-   }
+   },
+  {
+    name: "Jordan",
+    logo: "images/jordan-logo.jfif"
 ];
 
-// Get products by brand and type
-function getProductsByBrandAndType(brand, type) {
-
-  return products.filter(p => {
-
-   const productBrand =
-  (p.brand || "")
-  .trim()
-  .toLowerCase();
-
-const productType =
-  (p.type || "")
-  .trim()
-  .toLowerCase();
-
-    return (
-      productBrand === brand.toLowerCase() &&
-      productType === type.toLowerCase()
-    );
-
-  });
-
-}
 
 // Build the scrollable brand row
 function buildBrandScrollRow() {
@@ -1266,77 +1241,6 @@ function buildBrandScrollRow() {
       <span>${brand.name}</span>
     </div>
   `).join('');
-}
-
-// Toggle shoe type expansion
-window.toggleTypeProducts = function(typeId) {
-
-  const container =
-    document.getElementById(`type-products-${typeId}`);
-
-  const icon =
-    document.getElementById(`icon-${typeId}`);
-
-  if(container){
-
-    container.classList.toggle('show');
-
-    if(icon){
-
-      icon.style.transform =
-        container.classList.contains('show')
-        ? 'rotate(180deg)'
-        : 'rotate(0deg)';
-
-    }
-
-  }
-
-};
-
-// Render shoe types panel for selected brand
-function renderBrandTypesPanel(selectedBrand) {
-  const panelDiv = document.getElementById('brandTypesPanel');
-  if (!panelDiv) return;
-  
-  const brandObj = brandTypesData.find(b => b.name === selectedBrand);
-  if (!brandObj || brandObj.types.length === 0) {
-    panelDiv.style.display = 'none';
-    return;
-  }
-  
-  panelDiv.style.display = 'block';
-  let html = `<div style="padding: 8px 12px;"><strong style="color: #D4AF37;">${selectedBrand} shoe types</strong></div>`;
-  
-  brandObj.types.forEach(type => {
-    const productsOfType = getProductsByBrandAndType(selectedBrand, type);
-    const typeId = `${selectedBrand}-${type}`
-  .replace(/\s/g, '')
-  .toLowerCase();
-    
-    html += `
-      <div class="type-item">
-        <div class="type-header"onclick="toggleTypeProducts('${typeId}')" >
-          <span>👟 ${type}</span> 
-          <i class="fas fa-chevron-down" id="icon-${typeId}"></i>
-        </div>
-        <div class="type-products" id="type-products-${typeId}">
-          ${productsOfType.length > 0 ? 
-            productsOfType.map(p => `
-              <div class="mini-product-card" onclick="viewProductFromBrand(${p.id})">
-                <img src="${p.image}" alt="${p.name}">
-                <h4>${p.name}</h4>
-                <p>KSh ${p.price.toLocaleString()}</p>
-              </div>
-            `).join('') : 
-            '<div style="padding: 12px; color: #aaa; text-align: center;">No shoes available</div>'
-          }
-        </div>
-      </div>
-    `;
-  });
-  
-  panelDiv.innerHTML = html;
 }
 
 // Select a brand
@@ -1383,13 +1287,6 @@ window.selectBrand = function(brandName) {
 };
   
 
-
-// View product from brand panel
-window.viewProductFromBrand = function(productId) {
-
-  openProduct(productId);
-
-};
 
 // Initialize the brand row when page loads
 document.addEventListener('DOMContentLoaded', function() {
