@@ -18,7 +18,7 @@ quantity: Number(item.quantity) || 1
 }));
 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 let recentlyViewed =
-JSON.parse(localStorage.Item("recentlyViewed")) || [];
+JSON.parse(localStorage.getItem("recentlyViewed")) || [];
 
 /* SAVE FUNCTIONS */
 function saveCart(){
