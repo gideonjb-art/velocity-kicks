@@ -1240,7 +1240,7 @@ const brandTypesData = [
   {
     name: "Jordan",
     logo: "images/jordan-logo.jfif"
-];
+;
 
 
 // Build the scrollable brand row
