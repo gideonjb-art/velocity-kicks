@@ -317,7 +317,6 @@ window.removeFromWishlist = function(id){
 wishlist = wishlist.filter(i => String(i.id) !== String(id));
 saveWishlist();
 renderWishlist();
-}
 /* =========================
    RECENTLY VIEWED UI
 ========================= */
@@ -399,7 +398,7 @@ KES ${product.price}
 }  
 };
 
- window.moveToCart = function(id){
+window.moveToCart = function(id){
 
 const product = wishlist.find(
 p => String(p.id) === String(id)
@@ -407,8 +406,27 @@ p => String(p.id) === String(id)
 
 if(!product) return;
 
+let sizes = [];
+
+if(Array.isArray(product.sizes)){
+sizes = product.sizes;
+}else{
+sizes = String(product.sizes || "")
+.split(",")
+.map(s => s.trim())
+.filter(Boolean);
+}
+
+const selectedSize =
+prompt(
+`Choose size:\n${sizes.join(", ")}`
+);
+
+if(!selectedSize) return;
+
 cart.push({
 ...product,
+size:selectedSize,
 quantity:1
 });
 
@@ -422,9 +440,9 @@ saveWishlist();
 renderWishlist();
 renderCart();
 
-alert("Moved to cart 🛒");
+alert(`Size ${selectedSize} moved to cart 🛒`);
 
-}; 
+};
 
 /* WISHLIST UI */
 window.openWishlist = function(){
@@ -438,28 +456,102 @@ document.getElementById("wishlistModal").style.display = "none";
 window.closeProduct = function(){
 document.getElementById("productModal").style.display = "none";
 }
+
 function renderWishlist(){
 
 const box = document.getElementById("wishlistItems");
 
 if(wishlist.length === 0){
-box.innerHTML = "<p>No wishlist items</p>";
+
+box.innerHTML = `
+<div style="
+text-align:center;
+padding:40px;
+">
+
+<img
+src="images/logo.png"
+style="
+width:120px;
+opacity:.8;
+margin-bottom:15px;
+"
+>
+
+<h3>Your Wishlist Is Empty</h3>
+
+<p style="color:#888;">
+Save sneakers you love and revisit them anytime.
+</p>
+
+<button onclick="discoverMore()">
+Discover More
+</button>
+
+</div>
+`;
+
 return;
 }
 
 box.innerHTML = wishlist.map(item => `
-<div style="background:#111;padding:10px;margin:10px 0;border-radius:10px;">
-<h4>${item.name}</h4>
-<p>KES ${item.price}</p>
 
-<button onclick="moveToCart('${item.id}')">Move to Cart</button>
-<button onclick="removeFromWishlist('${item.id}')">Remove</button>
+<div style="
+display:flex;
+gap:15px;
+align-items:center;
+background:#111;
+padding:12px;
+margin:12px 0;
+border-radius:15px;
+">
+
+<img
+src="${item.image}"
+alt="${item.name}"
+style="
+width:90px;
+height:90px;
+object-fit:cover;
+border-radius:12px;
+"
+onerror="this.src='https://via.placeholder.com/300'"
+>
+
+<div style="flex:1;">
+
+<h4 style="margin:0 0 5px;">
+${item.name}
+</h4>
+
+<p style="
+margin:0 0 10px;
+color:#D4AF37;
+">
+KES ${item.price}
+</p>
+
+<button onclick="moveToCart('${item.id}')">
+Move To Cart
+</button>
+
+<button
+onclick="removeFromWishlist('${item.id}')"
+style="
+background:#222;
+color:#ff4d4d;
+margin-left:10px;
+">
+Remove
+</button>
 
 </div>
+
+</div>
+
 `).join("");
 
 }
-
 /* INIT COUNTS */
 function initShop(){
 updateCartCount();
@@ -1244,7 +1336,17 @@ const brandTypesData = [
   }      
 ];
 
+window.discoverMore = function(){
 
+closeWishlist();
+
+document
+.getElementById("products")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
 
 // Build the scrollable brand row
 function buildBrandScrollRow() {
