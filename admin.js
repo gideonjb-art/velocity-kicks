@@ -90,6 +90,8 @@ table.innerHTML += `
 
 <td>${product.name}</td>
 
+<td>${product.brand || "-"}</td>
+
 <td>KES ${product.price}</td>
 
 <td>${product.stock}</td>
@@ -140,12 +142,27 @@ const category = document.getElementById("prodCategory").value;
 document.getElementById("prodBrand").value;
 const file = document.getElementById("imageFile").files[0];
 
-if(!name || !price || !stock || !category || !file){
-alert("Fill all fields");
-btn.innerText = "Save Product";
-btn.disabled = false;
-return;
+ let imageUrl = null;
+
+// IF NEW IMAGE IS UPLOADED
+if(file){
+
+  const fileName = Date.now() + "-" + file.name.replace(/\s/g,"");
+
+  const { error: uploadError } = await supabaseClient.storage
+    .from("products")
+    .upload(fileName, file);
+
+  if(uploadError){
+    alert(uploadError.message);
+    btn.innerText = "Save Product";
+    btn.disabled = false;
+    return;
+  }
+
+  imageUrl = `https://wylhbyrpmotecjdtjrae.supabase.co/storage/v1/object/public/products/${fileName}`;
 }
+ 
 
 const fileName = Date.now() + "-" + file.name.replace(/\s/g,"");
 
