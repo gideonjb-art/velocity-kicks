@@ -317,6 +317,7 @@ window.removeFromWishlist = function(id){
 wishlist = wishlist.filter(i => String(i.id) !== String(id));
 saveWishlist();
 renderWishlist();
+}; 
 /* =========================
    RECENTLY VIEWED UI
 ========================= */
