@@ -136,6 +136,8 @@ const sizes = document
 .trim();
 
 const category = document.getElementById("prodCategory").value;
+ const brand =
+document.getElementById("prodBrand").value;
 const file = document.getElementById("imageFile").files[0];
 
 if(!name || !price || !stock || !category || !file){
@@ -167,6 +169,7 @@ price: Number(price),
 stock: Number(stock),
 sizes,
 category,
+brand: brand || null,
 image: imageUrl
 };
 
@@ -235,6 +238,9 @@ product.sizes || "";
 
 document.getElementById("prodCategory").value =
 product.category;
+
+  document.getElementById("prodBrand").value =
+product.brand || "";
 
 document.getElementById("previewImg").src =
 product.image;
@@ -325,6 +331,8 @@ document.getElementById("previewImg").style.display =
 "none";
 
 document.getElementById("prodCategory").selectedIndex = 0;
+
+  document.getElementById("prodBrand").selectedIndex = 0;
 
   document.getElementById("prodSizes").value = "";
 
