@@ -2010,3 +2010,9 @@ header{
   border-radius:12px;
   display:none;
 }
+
+header{
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+}
