@@ -1939,3 +1939,50 @@ border-radius:10px;
     font-size:0.7rem;
   }
 }
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 20px;
+  position:relative;
+}
+
+.hamburger{
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:1.5rem;
+  cursor:pointer;
+}
+
+.mobile-menu{
+  position:absolute;
+  top:100%;
+  right:20px;
+  width:220px;
+
+  background:#111;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+
+  display:none;
+  flex-direction:column;
+
+  overflow:hidden;
+  z-index:1000;
+}
+
+.mobile-menu a{
+  color:white;
+  text-decoration:none;
+  padding:14px 18px;
+  transition:.3s;
+}
+
+.mobile-menu a:hover{
+  background:rgba(255,255,255,.08);
+}
+
+.mobile-menu.show{
+  display:flex;
+}
