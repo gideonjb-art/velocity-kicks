@@ -1986,3 +1986,27 @@ header{
 .mobile-menu.show{
   display:flex;
 }
+.hamburger{
+  position:fixed;
+  top:20px;
+  left:20px;
+  z-index:1001;
+
+  background:none;
+  border:none;
+  color:white;
+  font-size:1.5rem;
+  cursor:pointer;
+}
+
+.mobile-menu{
+  position:fixed;
+  top:60px;
+  left:20px;
+
+  width:220px;
+  background:rgba(17,17,17,.95);
+  backdrop-filter:blur(12px);
+  border-radius:12px;
+  display:none;
+}
