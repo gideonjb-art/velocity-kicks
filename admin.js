@@ -144,26 +144,40 @@ const file = document.getElementById("imageFile").files[0];
 
  let imageUrl = null;
 
-// IF NEW IMAGE IS UPLOADED
+// Editing existing product
+if(currentEditId){
+
+  const existing = products.find(
+    p => String(p.id) === String(currentEditId)
+  );
+
+  imageUrl = existing?.image || null;
+}
+
+// New image selected
 if(file){
 
-  const fileName = Date.now() + "-" + file.name.replace(/\s/g,"");
+  const fileName =
+    Date.now() + "-" + file.name.replace(/\s/g,"");
 
-  const { error: uploadError } = await supabaseClient.storage
-    .from("products")
-    .upload(fileName, file);
+  const { error: uploadError } =
+    await supabaseClient.storage
+      .from("products")
+      .upload(fileName, file);
 
   if(uploadError){
+
     alert(uploadError.message);
+
     btn.innerText = "Save Product";
     btn.disabled = false;
+
     return;
   }
 
-  imageUrl = `https://wylhbyrpmotecjdtjrae.supabase.co/storage/v1/object/public/products/${fileName}`;
+  imageUrl =
+    `https://wylhbyrpmotecjdtjrae.supabase.co/storage/v1/object/public/products/${fileName}`;
 }
- 
-
 const fileName = Date.now() + "-" + file.name.replace(/\s/g,"");
 
 const { error: uploadError } = await supabaseClient.storage
