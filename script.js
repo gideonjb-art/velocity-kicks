@@ -1554,3 +1554,19 @@ window.closeProduct = function(){
     .style.display = "none";
 
 };
+
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
+
+menuBtn.addEventListener("click", () => {
+  mobileMenu.classList.toggle("show");
+});
+
+document.addEventListener("click", (e) => {
+  if (
+    !mobileMenu.contains(e.target) &&
+    !menuBtn.contains(e.target)
+  ) {
+    mobileMenu.classList.remove("show");
+  }
+});
