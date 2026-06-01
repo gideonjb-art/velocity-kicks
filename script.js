@@ -1570,3 +1570,8 @@ document.addEventListener("click", (e) => {
     mobileMenu.classList.remove("show");
   }
 });
+document.querySelectorAll('#mobileMenu a').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('show');
+  });
+});
