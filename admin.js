@@ -141,7 +141,12 @@ const category = document.getElementById("prodCategory").value;
  const brand =
 document.getElementById("prodBrand").value;
 const file = document.getElementById("imageFile").files[0];
-
+if(!currentEditId && !file){
+  alert("Please select a product image");
+  btn.innerText = "Save Product";
+  btn.disabled = false;
+  return;
+}
  let imageUrl = null;
 
 // Editing existing product
@@ -178,21 +183,6 @@ if(file){
   imageUrl =
     `https://wylhbyrpmotecjdtjrae.supabase.co/storage/v1/object/public/products/${fileName}`;
 }
-const fileName = Date.now() + "-" + file.name.replace(/\s/g,"");
-
-const { error: uploadError } = await supabaseClient.storage
-.from("products")
-.upload(fileName, file);
-
-if(uploadError){
-alert(uploadError.message);
-btn.innerText = "Save Product";
-btn.disabled = false;
-return;
-}
-
-const imageUrl =
-`https://wylhbyrpmotecjdtjrae.supabase.co/storage/v1/object/public/products/${fileName}`;
 
 const productData = {
 name,
