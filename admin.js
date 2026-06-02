@@ -376,9 +376,22 @@ document.getElementById("prodCategory").selectedIndex = 0;
 
 }
 
-/* INIT */
-loadProducts();
-loadOrders();
+async function initAdmin() {
+
+  const {
+    data: { session }
+  } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  await loadProducts();
+  await loadOrders();
+}
+
+initAdmin();
 
 document
 .getElementById("logoutBtn")
