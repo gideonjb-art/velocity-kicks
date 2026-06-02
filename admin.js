@@ -380,3 +380,13 @@ document.getElementById("prodCategory").selectedIndex = 0;
 loadProducts();
 loadOrders();
 
+document
+.getElementById("logoutBtn")
+.addEventListener("click", async () => {
+
+await supabaseClient.auth.signOut();
+
+window.location.href = "login.html";
+
+});
+
