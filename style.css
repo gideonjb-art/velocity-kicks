@@ -2060,3 +2060,14 @@ header{
     transform: translateY(0);
   }
 }
+.product-card {
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 20px 35px -15px rgba(0,0,0,0.4);
+}
+
+.product-card:hover {
+  border-color: rgba(212,175,55,0.3);
+  box-shadow: 0 25px 40px -15px rgba(212,175,55,0.15);
+}
