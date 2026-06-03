@@ -2107,3 +2107,31 @@ section {
     radial-gradient(ellipse at 80% 70%, rgba(212,175,55,0.08), transparent 50%),
     linear-gradient(135deg, #070707 0%, #0a0a0a 50%, #050505 100%);
 }
+.contact-premium {
+  background: linear-gradient(135deg, #0a0a0a, #050505);
+  border-radius: 40px;
+  margin: 40px 5%;
+  padding: 60px;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.contact-info-card {
+  background: rgba(255,255,255,0.03);
+  border-radius: 28px;
+  padding: 32px;
+}
+
+.whatsapp-btn {
+  background: #25D366;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 40px;
+  font-weight: 600;
+  margin-top: 24px;
+}
