@@ -2161,3 +2161,22 @@ h2::after {
   background: var(--gold);
   border-radius: 3px;
 }
+/* Custom scrollbar (already good, but enhance) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 10px;
+}
+
+/* Smooth iOS momentum scrolling */
+.product-grid, .brands-scroll-row {
+  -webkit-overflow-scrolling: touch;
+}
