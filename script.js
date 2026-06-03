@@ -1591,3 +1591,53 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Quick add to cart (uses first available size)
+window.quickAddToCart = function(productId) {
+  const product = products.find(p => String(p.id) === String(productId));
+  if (!product) return;
+  
+  // Get first available size
+  let sizes = [];
+  if (Array.isArray(product.sizes)) sizes = product.sizes;
+  else if (product.sizes) sizes = product.sizes.split(",").map(s => s.trim()).filter(Boolean);
+  
+  if (sizes.length === 0) {
+    alert("Please select a size");
+    return;
+  }
+  
+  const selectedSize = sizes[0];
+  
+  let existing = cart.find(item => 
+    String(item.id) === String(product.id) && item.size === selectedSize
+  );
+  
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: Number(product.price),
+      image: product.image,
+      size: selectedSize,
+      quantity: 1
+    });
+  }
+  
+  saveCart();
+  showToast(`✓ Added ${product.name} (${selectedSize})`);
+  
+  // Animate the button
+  const btn = event.target;
+  if (btn) {
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = "✓ Added!";
+    btn.style.background = "#4CAF50";
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.style.background = "";
+    }, 1000);
+  }
+};
