@@ -1575,3 +1575,10 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
     mobileMenu.classList.remove('show');
   });
 });
+// Add to your script.js
+document.querySelectorAll('.faq-item h3').forEach(question => {
+  question.addEventListener('click', () => {
+    const parent = question.parentElement;
+    parent.classList.toggle('active');
+  });
+});
