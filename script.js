@@ -1593,3 +1593,56 @@ window.quickAddToCart = function(productId) {
     }, 1000);
   }
 };
+
+function showToast(message, isError = false) {
+  // Remove existing toast
+  const existingToast = document.getElementById("velocity-toast");
+  if (existingToast) existingToast.remove();
+  
+  const toast = document.createElement("div");
+  toast.id = "velocity-toast";
+  toast.innerHTML = `
+    <div style="
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    ">
+      <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}" style="font-size: 20px;"></i>
+      <span>${message}</span>
+    </div>
+  `;
+  toast.style.cssText = `
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: ${isError ? 'rgba(255, 68, 68, 0.95)' : 'rgba(0, 0, 0, 0.95)'};
+    backdrop-filter: blur(12px);
+    color: ${isError ? 'white' : '#D4AF37'};
+    padding: 14px 24px;
+    border-radius: 60px;
+    font-weight: 600;
+    z-index: 200000;
+    border: 1px solid ${isError ? 'rgba(255, 68, 68, 0.3)' : 'rgba(212, 175, 55, 0.3)'};
+    font-size: 0.9rem;
+    white-space: nowrap;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  `;
+  document.body.appendChild(toast);
+  
+  // Animate in
+  setTimeout(() => {
+    toast.style.opacity = "1";
+    toast.style.transform = "translateX(-50%) translateY(0)";
+  }, 10);
+  
+  // Remove after 2.5 seconds
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateX(-50%) translateY(20px)";
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
