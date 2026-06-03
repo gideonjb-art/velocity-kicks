@@ -666,179 +666,131 @@ renderProducts();
 }
 
 /* RENDER PRODUCTS */
-function renderProducts(){
-
-const grid = document.getElementById("productGrid");
+function renderProducts() {
+  const grid = document.getElementById("productGrid");
   
-let filteredProducts = [...products];
- /* BRAND FILTER */
-
-if(activeBrand){
-
-  filteredProducts = filteredProducts.filter(product =>
-
-    (product.brand || "")
-      .trim()
-      .toLowerCase() === activeBrand.toLowerCase()
-
-  );
-
-} 
-
-/* CATEGORY FILTER */
-if(currentCategory !== "all"){
-
-filteredProducts = filteredProducts.filter(p => {
-
-const category = (p.category || "").toLowerCase();
-
-return category.includes(currentCategory);
-
-});
-
+  let filteredProducts = [...products];
+  
+  // BRAND FILTER
+  if (activeBrand) {
+    filteredProducts = filteredProducts.filter(product =>
+      (product.brand || "")
+        .trim()
+        .toLowerCase() === activeBrand.toLowerCase()
+    );
+  }
+  
+  // CATEGORY FILTER
+  if (currentCategory !== "all") {
+    filteredProducts = filteredProducts.filter(p => {
+      const category = (p.category || "").toLowerCase();
+      return category.includes(currentCategory);
+    });
+  }
+  
+  // SEARCH FILTER
+  if (searchQuery) {
+    filteredProducts = filteredProducts.filter(p => {
+      const name = (p.name || "").toLowerCase();
+      const category = (p.category || "").toLowerCase();
+      return (
+        name.includes(searchQuery) ||
+        category.includes(searchQuery)
+      );
+    });
+  }
+  
+  // EMPTY STATE
+  if (filteredProducts.length === 0) {
+    grid.innerHTML = `
+      <div style="
+        padding: 60px 40px;
+        background: rgba(255,255,255,0.02);
+        border-radius: 32px;
+        text-align: center;
+        grid-column: 1/-1;
+        border: 1px solid rgba(255,255,255,0.05);
+      ">
+        <i class="fas fa-search" style="font-size: 48px; opacity: 0.3; margin-bottom: 20px; display: block;"></i>
+        <h3 style="margin-bottom: 10px;">No Products Found</h3>
+        <p style="opacity: 0.6;">Try adjusting your search or filter</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // RENDER PREMIUM PRODUCT CARDS
+  grid.innerHTML = filteredProducts.map(p => `
+    <div class="product-card reveal" data-brand="${p.brand}" data-category="${p.category}" onclick='event.stopPropagation(); openProduct("${p.id}")'>
+      
+      <div class="product-image-container">
+        <img
+          src="${p.image || 'https://via.placeholder.com/400'}"
+          class="product-img"
+          loading="lazy"
+          onclick='event.stopPropagation(); openImageViewer("${p.image}")'
+          onerror="this.src='https://via.placeholder.com/400'"
+        >
+        
+        <!-- BADGES -->
+        ${p.stock <= 0 ? '<div class="product-badge">SOLD OUT</div>' : 
+          p.stock < 5 ? '<div class="product-badge hot">🔥 LOW STOCK</div>' :
+          '<div class="product-badge">NEW</div>'}
+        
+        <!-- QUICK ACTION BUTTONS -->
+        <div class="product-actions">
+          <button class="action-btn" onclick='event.stopPropagation(); addToWishlist("${p.id}")' title="Add to Wishlist">
+            ♡
+          </button>
+          <button class="action-btn" onclick='event.stopPropagation(); quickAddToCart("${p.id}")' title="Quick Add">
+            🛒
+          </button>
+        </div>
+      </div>
+      
+      <div class="product-info">
+        <div class="product-brand">${p.brand || 'VELOCITY'}</div>
+        <h3 class="product-title">${p.name || "Unnamed Product"}</h3>
+        
+        <div class="price-row">
+          <span class="product-price">KES ${(p.price || 0).toLocaleString()}</span>
+          ${p.original_price ? `<span class="product-price original">KES ${p.original_price.toLocaleString()}</span>` : ''}
+        </div>
+        
+        <div class="size-select-wrapper">
+          <select id="size-${p.id}" class="size-select" onclick='event.stopPropagation()'>
+            <option value="">Select Size</option>
+            ${Array.isArray(p.sizes) 
+              ? p.sizes.map(size => `<option value="${size}">${size}</option>`).join("")
+              : (p.sizes || "")
+                  .split(",")
+                  .filter(size => size.trim() !== "")
+                  .map(size => `<option value="${size.trim()}">${size.trim()}</option>`)
+                  .join("")}
+          </select>
+        </div>
+        
+        <div class="product-buttons">
+          <button class="btn-cart" onclick='event.stopPropagation(); addToCart("${p.id}")' ${p.stock <= 0 ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+            <i class="fas fa-shopping-bag"></i> ${p.stock <= 0 ? 'Out of Stock' : 'Add to Cart'}
+          </button>
+          <button class="btn-wishlist" onclick='event.stopPropagation(); addToWishlist("${p.id}")'>
+            ♡
+          </button>
+        </div>
+        
+        <div class="stock-indicator ${p.stock > 0 ? (p.stock < 5 ? 'low-stock' : 'in-stock') : 'out-of-stock'}">
+          <i class="fas ${p.stock > 0 ? (p.stock < 5 ? 'fa-exclamation-triangle' : 'fa-check-circle') : 'fa-times-circle'}"></i>
+          ${p.stock > 0 ? (p.stock < 5 ? `Only ${p.stock} left!` : `${p.stock} in stock`) : 'Out of stock'}
+        </div>
+      </div>
+      
+    </div>
+  `).join("");
+  
+  revealOnScroll();
 }
 
-/* SEARCH FILTER */
-if(searchQuery){
-
-filteredProducts = filteredProducts.filter(p => {
-
-const name = (p.name || "").toLowerCase();
-
-const category = (p.category || "").toLowerCase();
-
-return (
-name.includes(searchQuery) ||
-category.includes(searchQuery)
-);
-
-});
-
-}
-
-/* EMPTY STATE */
-if(filteredProducts.length === 0){
-
-grid.innerHTML = `
-<div style="
-padding:40px;
-background:#111;
-border-radius:20px;
-text-align:center;
-grid-column:1/-1;
-">
-<h3>No Products Found</h3>
-<p style="opacity:.7;">
-Try another search
-</p>
-</div>
-`;
-
-return;
-
-}
-
-
-/* DISPLAY PRODUCTS */
-grid.innerHTML = filteredProducts.map(p => `
-<div class="product-card reveal"
-     data-brand="${p.brand}"
-     data-category="${p.category}">
-
-
-<img
-src="${p.image || 'https://via.placeholder.com/300'}"
-class="product-img"
-loading="lazy"
-onclick='event.stopPropagation(); openImageViewer("${p.image}")'
-style="cursor:pointer;"
-onerror="this.src='https://via.placeholder.com/300'"
->
-
-<div class="product-info">
-
-<h3
-onclick='event.stopPropagation(); openProduct("${p.id}")'
-style="cursor:pointer;"
->
-${p.name || "Unnamed Product"}
-</h3>
-
-<p class="product-price">
-KES ${p.price || 0}
-</p>
-<p style="
-color:${p.stock > 0 ? '#4CAF50' : '#ff4d4d'};
-font-size:0.9rem;
-margin-top:5px;
-">
-${p.stock > 0
-? `${p.stock} in stock`
-: 'Out of stock'}
-</p>
-
-<select
-id="size-${p.id}"
-class="size-select"
->
-
-<option value="">Select Size</option>
-
-${
-Array.isArray(p.sizes)
-? p.sizes.map(size => `
-<option value="${size}">
-${size}
-</option>
-`).join("")
-: (p.sizes || "")
-.split(",")
-.filter(size => size.trim() !== "")
-.map(size => `
-<option value="${size.trim()}">
-${size.trim()}
-</option>
-`)
-.join("")
-}
-
-</select>
-
-<div style="display:flex; gap:10px;">
-
-<button
-onclick='event.stopPropagation(); orderProduct("${p.id}")'
-${p.stock <= 0 ? 'disabled' : ''}
-style="
-opacity:${p.stock <= 0 ? '0.5' : '1'};
-cursor:${p.stock <= 0 ? 'not-allowed' : 'pointer'};
-"
->
-${p.stock <= 0 ? 'Out Of Stock' : 'Order'}
-</button>
-
-<button onclick='event.stopPropagation(); addToCart("${p.id}")'>
-🛒
-</button>
-
-<button
-onclick='event.stopPropagation(); addToWishlist("${p.id}")'
-style="background:#222;color:#D4AF37;"
->
-♡
-</button>
-
-</div>
-
-
-</div>
-
-</div>
-
-`).join("");
-revealOnScroll();
-
-}
 /* ORDER PRODUCT */
 window.orderProduct = async function(productId){
 
