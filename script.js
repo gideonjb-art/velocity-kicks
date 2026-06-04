@@ -1692,7 +1692,7 @@ if (contactForm) {
             from_name: name,
             from_email: email,
             message: message,
-            to_email: 'hello@velocitykicks.com', // Where emails will be sent
+            to_email: 'jabesgideon@gmail.com', // Where emails will be sent
             reply_to: email
         };
         
