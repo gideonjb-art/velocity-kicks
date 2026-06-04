@@ -1646,3 +1646,47 @@ function showToast(message, isError = false) {
     setTimeout(() => toast.remove(), 300);
   }, 2500);
 }
+
+// Contact form handling
+const contactForm = document.getElementById('quickContactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('contactName').value;
+    const email = document.getElementById('contactEmail').value;
+    const message = document.getElementById('contactMessage').value;
+    
+    // Simple validation
+    if (!name || !email || !message) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    // Create WhatsApp message or email link
+    const whatsappMessage = `Hello Velocity Kicks!%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*Message:* ${message}`;
+    const whatsappUrl = `https://wa.me/254798566993?text=${whatsappMessage}`;
+    
+    // Open WhatsApp with the message
+    window.open(whatsappUrl, '_blank');
+    
+    // Show success message
+    const formCard = document.querySelector('.contact-form-card');
+    const originalContent = formCard.innerHTML;
+    formCard.innerHTML = `
+      <div class="form-success">
+        <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 10px;"></i>
+        <h3>Message Sent!</h3>
+        <p>We'll get back to you shortly via WhatsApp</p>
+      </div>
+    `;
+    
+    // Reset form after 3 seconds
+    setTimeout(() => {
+      formCard.innerHTML = originalContent;
+      document.getElementById('quickContactForm').reset();
+      // Reattach event listener
+      document.getElementById('quickContactForm').addEventListener('submit', arguments.callee);
+    }, 3000);
+  });
+}
