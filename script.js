@@ -1647,46 +1647,129 @@ function showToast(message, isError = false) {
   }, 2500);
 }
 
-// Contact form handling
+
+// ============================================
+// EMAILJS CONTACT FORM - SEND EMAILS DIRECTLY
+// ============================================
+
+// Initialize EmailJS with your Public Key
+// SIGN UP FOR FREE AT: https://www.emailjs.com/
+(function() {
+    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
+})();
+
+// Get form element
 const contactForm = document.getElementById('quickContactForm');
+
 if (contactForm) {
-  contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Get form values
+        const name = document.getElementById('contactName').value;
+        const email = document.getElementById('contactEmail').value;
+        const message = document.getElementById('contactMessage').value;
+        
+        // Validate form
+        if (!name || !email || !message) {
+            showFormMessage('error', 'Please fill in all fields');
+            return;
+        }
+        
+        if (!isValidEmail(email)) {
+            showFormMessage('error', 'Please enter a valid email address');
+            return;
+        }
+        
+        // Show loading state
+        const submitBtn = document.getElementById('sendEmailBtn');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+        
+        // Prepare email template parameters
+        const templateParams = {
+            from_name: name,
+            from_email: email,
+            message: message,
+            to_email: 'hello@velocitykicks.com', // Where emails will be sent
+            reply_to: email
+        };
+        
+        // Send email using EmailJS
+        // REPLACE WITH YOUR SERVICE ID & TEMPLATE ID
+        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                showFormMessage('success', 'Message sent successfully! We\'ll get back to you soon.');
+                contactForm.reset();
+            }, function(error) {
+                console.log('FAILED...', error);
+                showFormMessage('error', 'Failed to send message. Please try again or WhatsApp us.');
+            })
+            .finally(function() {
+                // Reset button
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            });
+    });
+}
+
+// Helper function to validate email
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Helper function to show messages
+function showFormMessage(type, message) {
+    const formCard = document.querySelector('.contact-form-card');
+    const existingMessage = document.querySelector('.form-message');
     
-    const name = document.getElementById('contactName').value;
-    const email = document.getElementById('contactEmail').value;
-    const message = document.getElementById('contactMessage').value;
-    
-    // Simple validation
-    if (!name || !email || !message) {
-      alert('Please fill in all fields');
-      return;
+    // Remove existing message if any
+    if (existingMessage) {
+        existingMessage.remove();
     }
     
-    // Create WhatsApp message or email link
-    const whatsappMessage = `Hello Velocity Kicks!%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*Message:* ${message}`;
-    const whatsappUrl = `https://wa.me/254798566993?text=${whatsappMessage}`;
-    
-    // Open WhatsApp with the message
-    window.open(whatsappUrl, '_blank');
-    
-    // Show success message
-    const formCard = document.querySelector('.contact-form-card');
-    const originalContent = formCard.innerHTML;
-    formCard.innerHTML = `
-      <div class="form-success">
-        <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 10px;"></i>
-        <h3>Message Sent!</h3>
-        <p>We'll get back to you shortly via WhatsApp</p>
-      </div>
+    // Create message element
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `form-message form-${type}`;
+    messageDiv.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <p>${message}</p>
     `;
     
-    // Reset form after 3 seconds
+    // Insert after form
+    const form = document.getElementById('quickContactForm');
+    form.parentNode.insertBefore(messageDiv, form.nextSibling);
+    
+    // Auto remove after 5 seconds
     setTimeout(() => {
-      formCard.innerHTML = originalContent;
-      document.getElementById('quickContactForm').reset();
-      // Reattach event listener
-      document.getElementById('quickContactForm').addEventListener('submit', arguments.callee);
-    }, 3000);
-  });
+        if (messageDiv) messageDiv.remove();
+    }, 5000);
+}
+
+// Auto-save to localStorage (optional - saves draft)
+const nameInput = document.getElementById('contactName');
+const emailInput = document.getElementById('contactEmail');
+const messageInput = document.getElementById('contactMessage');
+
+if (nameInput && emailInput && messageInput) {
+    // Load saved draft
+    if (localStorage.getItem('contact_draft_name')) {
+        nameInput.value = localStorage.getItem('contact_draft_name');
+        emailInput.value = localStorage.getItem('contact_draft_email');
+        messageInput.value = localStorage.getItem('contact_draft_message');
+    }
+    
+    // Save draft on input
+    const saveDraft = () => {
+        localStorage.setItem('contact_draft_name', nameInput.value);
+        localStorage.setItem('contact_draft_email', emailInput.value);
+        localStorage.setItem('contact_draft_message', messageInput.value);
+    };
+    
+    nameInput.addEventListener('input', saveDraft);
+    emailInput.addEventListener('input', saveDraft);
+    messageInput.addEventListener('input', saveDraft);
 }
