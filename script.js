@@ -1698,7 +1698,7 @@ if (contactForm) {
         
         // Send email using EmailJS
         // REPLACE WITH YOUR SERVICE ID & TEMPLATE ID
-        emailjs.send('service_jn94vcs', '__ejs-test-mail-service__', templateParams)
+        emailjs.send('service_jn94vcs', 'template_c9ku097', templateParams)
             .then(function(response) {
                 console.log('SUCCESS!', response.status, response.text);
                 showFormMessage('success', 'Message sent successfully! We\'ll get back to you soon.');
