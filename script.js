@@ -1655,7 +1655,7 @@ function showToast(message, isError = false) {
 // Initialize EmailJS with your Public Key
 // SIGN UP FOR FREE AT: https://www.emailjs.com/
 (function() {
-    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
+    emailjs.init("pSbc4J-Y5u5ln_13i"); // Replace with your EmailJS public key
 })();
 
 // Get form element
@@ -1698,7 +1698,7 @@ if (contactForm) {
         
         // Send email using EmailJS
         // REPLACE WITH YOUR SERVICE ID & TEMPLATE ID
-        emailjs.send('service_jn94vcs', 'YOUR_TEMPLATE_ID', templateParams)
+        emailjs.send('service_jn94vcs', '__ejs-test-mail-service__', templateParams)
             .then(function(response) {
                 console.log('SUCCESS!', response.status, response.text);
                 showFormMessage('success', 'Message sent successfully! We\'ll get back to you soon.');
