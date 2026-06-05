@@ -395,25 +395,7 @@ padding-bottom:10px;
 <!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-<script type="module">
-    import { initiatePayment } from './payment.js';
-    
-    document.getElementById('paymentForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const phone = document.getElementById('phone').value;
-        const amount = document.getElementById('amount').value;
-        
-        const result = await initiatePayment(phone, amount);
-        
-        if (result.success) {
-            document.getElementById('paymentStatus').innerHTML = 
-                'Check your phone for M-Pesa prompt...';
-        } else {
-            document.getElementById('paymentStatus').innerHTML = 
-                `Error: ${result.error}`;
-        }
-    });
-</script>
+
 <script src="script.js"></script>
 
 <!-- CART MODAL -->
