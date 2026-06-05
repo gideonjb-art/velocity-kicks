@@ -254,41 +254,7 @@ Checkout • KES ${total}
 `;
 
 }
-window.checkoutCart = function(){
 
-if(cart.length === 0){
-alert("Your cart is empty");
-return;
-}
-
-let message = "*VELOCITY KICKS ORDER* 🛒\n\n";
-
-let total = 0;
-
-cart.forEach(item => {
-
-const subtotal = item.price * item.quantity;
-
-total += subtotal;
-
-message += `
-👟 ${item.name}
-📏 Size: ${item.size}
-Qty: ${item.quantity}
-KES ${subtotal}
-
-`;
-
-});
-
-message += `\nTOTAL: KES ${total}`;
-
-window.open(
-`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
-"_blank"
-);
-
-};
 
 /* =========================
 WISHLIST FUNCTIONS
