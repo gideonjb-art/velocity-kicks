@@ -256,6 +256,7 @@ Checkout • KES ${total}
 }
 
 
+
 WISHLIST FUNCTIONS
 ========================= */
 
