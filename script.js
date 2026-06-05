@@ -256,144 +256,56 @@ Checkout • KES ${total}
 }
 
 // ============================================
-// M-PESA CHECKOUT FUNCTION (ADD THIS)
+// CART M-PESA PAYMENT HANDLER
 // ============================================
 
 let isProcessingPayment = false;
 
-window.checkoutCart = function() {
-    if (cart.length === 0) {
-        showToast("Your cart is empty", true);
-        return;
-    }
+// Initialize payment when cart opens
+function initCartPayment() {
+    const payBtn = document.getElementById('checkoutMpesaBtn');
+    const phoneInput = document.getElementById('mpesaPhone');
+    const statusDiv = document.getElementById('cartPaymentStatus');
     
-    // Calculate total
-    let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    if (!payBtn) return;
     
-    // Create or get payment modal
-    let paymentOverlay = document.getElementById('mpesaPaymentOverlay');
-    if (!paymentOverlay) {
-        paymentOverlay = document.createElement('div');
-        paymentOverlay.id = 'mpesaPaymentOverlay';
-        paymentOverlay.innerHTML = `
-            <div style="
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.95);
-                z-index: 200000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                backdrop-filter: blur(10px);
-            ">
-                <div style="
-                    background: linear-gradient(135deg, #1a1a1a, #0f0f0f);
-                    border-radius: 24px;
-                    padding: 30px;
-                    max-width: 400px;
-                    width: 90%;
-                    border: 1px solid rgba(212,175,55,0.3);
-                    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-                ">
-                    <h3 style="margin: 0 0 10px; color: #D4AF37;">M-Pesa Payment</h3>
-                    <p style="margin-bottom: 20px; color: #aaa;">Total: <strong style="color: #D4AF37;">KES ${total.toLocaleString()}</strong></p>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 8px; color: #fff;">Phone Number</label>
-                        <input type="tel" id="mpesaPhoneInput" placeholder="0712345678" style="
-                            width: 100%;
-                            padding: 14px;
-                            border-radius: 12px;
-                            border: 1px solid #333;
-                            background: #1a1a1a;
-                            color: white;
-                            font-size: 16px;
-                        ">
-                        <small style="color: #888; display: block; margin-top: 5px;">Enter M-Pesa registered number</small>
-                    </div>
-                    
-                    <button id="confirmMpesaPayment" style="
-                        width: 100%;
-                        padding: 14px;
-                        background: #D4AF37;
-                        color: black;
-                        border: none;
-                        border-radius: 12px;
-                        font-weight: bold;
-                        font-size: 16px;
-                        cursor: pointer;
-                        margin-bottom: 10px;
-                    ">
-                        Pay KES ${total.toLocaleString()}
-                    </button>
-                    
-                    <button id="closeMpesaPayment" style="
-                        width: 100%;
-                        padding: 12px;
-                        background: transparent;
-                        color: #888;
-                        border: 1px solid #333;
-                        border-radius: 12px;
-                        cursor: pointer;
-                    ">
-                        Cancel
-                    </button>
-                    
-                    <div id="mpesaPaymentStatus" style="margin-top: 15px; padding: 10px; border-radius: 8px; display: none;"></div>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(paymentOverlay);
-    } else {
-        // Update total display
-        const totalDisplay = paymentOverlay.querySelector('p strong');
-        if (totalDisplay) totalDisplay.innerText = `KES ${total.toLocaleString()}`;
-        const payBtn = paymentOverlay.querySelector('#confirmMpesaPayment');
-        if (payBtn) payBtn.innerHTML = `Pay KES ${total.toLocaleString()}`;
-        paymentOverlay.style.display = 'flex';
-    }
+    // Remove existing listeners
+    const newPayBtn = payBtn.cloneNode(true);
+    payBtn.parentNode.replaceChild(newPayBtn, payBtn);
     
-    // Show overlay
-    paymentOverlay.style.display = 'flex';
-    
-    // Close button
-    document.getElementById('closeMpesaPayment').onclick = () => {
-        paymentOverlay.style.display = 'none';
-        document.getElementById('mpesaPhoneInput').value = '';
-        document.getElementById('mpesaPaymentStatus').style.display = 'none';
-    };
-    
-    // Pay button
-    document.getElementById('confirmMpesaPayment').onclick = async () => {
-        if (isProcessingPayment) return;
+    newPayBtn.addEventListener('click', async function() {
+        if (isProcessingPayment) {
+            showCartMessage("Payment in progress...", "info", statusDiv);
+            return;
+        }
         
-        const phone = document.getElementById('mpesaPhoneInput').value.trim();
-        const statusDiv = document.getElementById('mpesaPaymentStatus');
+        const phone = phoneInput.value.trim();
         
         if (!phone) {
-            showStatusMessageMpesa("Please enter your phone number", "error", statusDiv);
+            showCartMessage("Please enter your M-Pesa phone number", "error", statusDiv);
             return;
         }
         
         // Format phone
         let formattedPhone = phone;
-        if (formattedPhone.startsWith('0')) formattedPhone = '254' + formattedPhone.substring(1);
-        else if (!formattedPhone.startsWith('254')) formattedPhone = '254' + formattedPhone;
+        if (formattedPhone.startsWith('0')) {
+            formattedPhone = '254' + formattedPhone.substring(1);
+        }
+        
+        if (formattedPhone.length !== 12 || !formattedPhone.startsWith('254')) {
+            showCartMessage("Enter valid Kenyan number (e.g., 0712345678)", "error", statusDiv);
+            return;
+        }
         
         // Calculate total
-        let finalTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         
         isProcessingPayment = true;
-        const payBtn = document.getElementById('confirmMpesaPayment');
-        payBtn.disabled = true;
-        payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        newPayBtn.disabled = true;
+        newPayBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        showCartMessage("Sending request to your phone...", "info", statusDiv);
         
-        showStatusMessageMpesa("Initiating STK Push... Check your phone", "info", statusDiv);
-        
-        // Prepare order details
+        // Prepare order
         const orderDetails = {
             items: cart.map(item => ({
                 name: item.name,
@@ -401,49 +313,65 @@ window.checkoutCart = function() {
                 quantity: item.quantity,
                 price: item.price
             })),
-            total: finalTotal
+            total: total
         };
         
-        // Call M-Pesa function
-        const result = await window.initiateMpesaPayment(formattedPhone, finalTotal, orderDetails);
+        // Check if payment function exists
+        if (typeof window.initiateMpesaPayment !== 'function') {
+            showCartMessage("Payment system not loaded. Please refresh the page.", "error", statusDiv);
+            isProcessingPayment = false;
+            newPayBtn.disabled = false;
+            newPayBtn.innerHTML = 'Pay with M-Pesa';
+            return;
+        }
+        
+        const result = await window.initiateMpesaPayment(formattedPhone, total, orderDetails);
         
         if (result.success) {
-            showStatusMessageMpesa(
-                "✅ STK Push sent! Enter your PIN on your phone. Waiting for confirmation...",
-                "success",
-                statusDiv
-            );
+            showCartMessage("✅ Check your phone! Enter PIN to complete payment.", "success", statusDiv);
             window.currentCheckoutID = result.checkoutRequestID;
+            
+            // Poll for payment status (since realtime might not work)
+            pollPaymentStatus(result.checkoutRequestID);
         } else {
-            showStatusMessageMpesa(`❌ ${result.error}`, "error", statusDiv);
+            showCartMessage(`❌ ${result.error}`, "error", statusDiv);
             isProcessingPayment = false;
-            payBtn.disabled = false;
-            payBtn.innerHTML = `Pay KES ${finalTotal.toLocaleString()}`;
+            newPayBtn.disabled = false;
+            newPayBtn.innerHTML = 'Pay with M-Pesa';
         }
-    };
-};
-
-// Helper function for status messages
-function showStatusMessageMpesa(message, type, statusDiv) {
-    if (!statusDiv) return;
-    statusDiv.style.display = 'block';
-    statusDiv.innerHTML = message;
-    
-    const colors = {
-        success: { bg: '#1a3a1a', color: '#4CAF50', border: '#4CAF50' },
-        error: { bg: '#3a1a1a', color: '#ff6b6b', border: '#ff6b6b' },
-        info: { bg: '#1a2a3a', color: '#D4AF37', border: '#D4AF37' }
-    };
-    
-    const color = colors[type] || colors.info;
-    statusDiv.style.backgroundColor = color.bg;
-    statusDiv.style.color = color.color;
-    statusDiv.style.border = `1px solid ${color.border}`;
+    });
 }
 
-// Payment success handler
-window.addEventListener('paymentSuccess', function(event) {
-    const payment = event.detail;
+// Poll payment status (fallback for realtime)
+function pollPaymentStatus(checkoutID) {
+    let attempts = 0;
+    const maxAttempts = 30; // 30 seconds
+    
+    const interval = setInterval(async () => {
+        attempts++;
+        
+        // Query Supabase for payment status
+        const { data, error } = await window.supabaseClient
+            .from('payments')
+            .select('status, mpesa_receipt, amount')
+            .eq('checkout_request_id', checkoutID)
+            .single();
+        
+        if (data && data.status === 'paid') {
+            clearInterval(interval);
+            handlePaymentSuccess(data);
+        } else if (data && data.status === 'failed') {
+            clearInterval(interval);
+            handlePaymentFailure(data);
+        } else if (attempts >= maxAttempts) {
+            clearInterval(interval);
+            showCartMessage("Payment timeout. Check your M-Pesa messages.", "error", document.getElementById('cartPaymentStatus'));
+            resetPaymentUI();
+        }
+    }, 1000);
+}
+
+function handlePaymentSuccess(payment) {
     showToast(`✅ Payment successful! Receipt: ${payment.mpesa_receipt}`);
     
     // Clear cart
@@ -451,37 +379,71 @@ window.addEventListener('paymentSuccess', function(event) {
     saveCart();
     renderCart();
     
-    // Close payment overlay
-    const overlay = document.getElementById('mpesaPaymentOverlay');
-    if (overlay) overlay.style.display = 'none';
-    
-    // Show success message
-    setTimeout(() => {
-        alert(`✅ Payment Successful!\nReceipt: ${payment.mpesa_receipt}\nAmount: KES ${payment.amount}\n\nThank you for shopping with Velocity Kicks!`);
-    }, 500);
-    
-    isProcessingPayment = false;
-});
-
-// Payment failure handler
-window.addEventListener('paymentFailed', function(event) {
-    const payment = event.detail;
-    showToast("Payment failed. Please try again.", true);
-    
-    const statusDiv = document.getElementById('mpesaPaymentStatus');
+    const statusDiv = document.getElementById('cartPaymentStatus');
     if (statusDiv) {
-        showStatusMessageMpesa(`❌ Payment failed. Please try again.`, "error", statusDiv);
+        showCartMessage(
+            `✅ PAYMENT SUCCESSFUL!<br>Receipt: ${payment.mpesa_receipt}<br>Amount: KES ${payment.amount}<br>Thank you!`,
+            "success",
+            statusDiv
+        );
     }
     
-    const payBtn = document.getElementById('confirmMpesaPayment');
-    if (payBtn && payBtn.disabled) {
-        payBtn.disabled = false;
-        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        payBtn.innerHTML = `Pay KES ${total.toLocaleString()}`;
-    }
+    // Close cart after 3 seconds
+    setTimeout(() => {
+        document.getElementById('cartModal').style.display = 'none';
+        resetPaymentUI();
+    }, 3000);
     
     isProcessingPayment = false;
-});
+}
+
+function handlePaymentFailure(payment) {
+    showToast("Payment failed. Please try again.", true);
+    resetPaymentUI();
+}
+
+function resetPaymentUI() {
+    const phoneInput = document.getElementById('mpesaPhone');
+    const statusDiv = document.getElementById('cartPaymentStatus');
+    const payBtn = document.getElementById('checkoutMpesaBtn');
+    
+    if (phoneInput) phoneInput.value = '';
+    if (statusDiv) setTimeout(() => { statusDiv.style.display = 'none'; }, 3000);
+    if (payBtn) {
+        payBtn.disabled = false;
+        payBtn.innerHTML = 'Pay with M-Pesa';
+    }
+    isProcessingPayment = false;
+}
+
+function showCartMessage(message, type, statusDiv) {
+    if (!statusDiv) return;
+    statusDiv.style.display = 'block';
+    statusDiv.innerHTML = message;
+    
+    const colors = {
+        success: { bg: '#1a3a1a', color: '#4CAF50' },
+        error: { bg: '#3a1a1a', color: '#ff6b6b' },
+        info: { bg: '#1a2a3a', color: '#D4AF37' }
+    };
+    const color = colors[type] || colors.info;
+    statusDiv.style.backgroundColor = color.bg;
+    statusDiv.style.color = color.color;
+}
+
+// Override openCart to initialize payment
+const originalOpenCart = window.openCart;
+window.openCart = function() {
+    if (originalOpenCart) originalOpenCart();
+    setTimeout(initCartPayment, 100);
+};
+
+// Override closeCart to reset
+const originalCloseCart = window.closeCart;
+window.closeCart = function() {
+    if (originalCloseCart) originalCloseCart();
+    resetPaymentUI();
+};
 
 /* =========================
 WISHLIST FUNCTIONS
