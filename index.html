@@ -490,6 +490,56 @@ border-radius:10px;
 
 </div>
 
+  <!-- Inside cartModal, replace the existing total/checkout section -->
+<div style="
+    background:#0f0f0f;
+    padding:20px;
+    border-top:1px solid rgba(255,255,255,0.1);
+    margin-top:20px;
+    border-radius:15px;
+">
+
+    <h2 style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:20px;
+    ">
+        <span>Total</span>
+        <span id="cartTotalAmount" style="color:#D4AF37;">
+            KES 0
+        </span>
+    </h2>
+    
+    <!-- M-Pesa Payment Form (Inside Cart) -->
+    <div id="paymentFormContainer" style="margin-top: 20px;">
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 0.9rem;">M-Pesa Phone Number</label>
+            <input type="tel" 
+                   id="mpesaPhone" 
+                   placeholder="0712345678" 
+                   style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: white;">
+            <small style="color: #888; font-size: 0.75rem;">Enter the phone number registered on M-Pesa</small>
+        </div>
+        
+        <button id="checkoutMpesaBtn" 
+                style="
+                    width: 100%;
+                    padding: 15px;
+                    font-size: 1rem;
+                    border-radius: 12px;
+                    font-weight: bold;
+                    background: #D4AF37;
+                    color: black;
+                ">
+            Pay with M-Pesa
+        </button>
+    </div>
+    
+    <!-- Payment Status Display -->
+    <div id="cartPaymentStatus" style="margin-top: 15px; padding: 12px; border-radius: 10px; display: none;"></div>
+</div>
+
 <!-- SCROLLABLE CART ITEMS -->
 <div
 id="cartItems"
