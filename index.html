@@ -373,6 +373,57 @@ padding-bottom:10px;
     <p>We aim to provide high-quality products and accurate product information for every item listed on our store.</p>
   </div>
 </section>
+<!-- Payment Section - Copy this into your existing HTML where you want the payment form to appear -->
+<div class="payment-section">
+    <h3 class="payment-title">M-Pesa Payment</h3>
+    
+    <!-- Payment Form Container -->
+    <div class="payment-form-container">
+        <form id="paymentForm" class="payment-form">
+            <!-- Phone Number Input -->
+            <div class="form-group">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" 
+                       id="phone" 
+                       name="phone" 
+                       class="form-input" 
+                       placeholder="0712345678" 
+                       required>
+                <small class="form-hint">Enter the M-Pesa registered phone number</small>
+            </div>
+            
+            <!-- Amount Input -->
+            <div class="form-group">
+                <label for="amount" class="form-label">Amount (KES)</label>
+                <input type="number" 
+                       id="amount" 
+                       name="amount" 
+                       class="form-input" 
+                       placeholder="100" 
+                       min="1" 
+                       required>
+                <small class="form-hint">Minimum amount is KES 1</small>
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="payment-button">
+                <span class="button-text">Pay with M-Pesa</span>
+                <span class="button-icon">💳</span>
+            </button>
+        </form>
+    </div>
+    
+    <!-- Payment Status Container (where results appear) -->
+    <div id="paymentStatus" class="payment-status-container">
+        <!-- Status messages will appear here dynamically -->
+    </div>
+    
+    <!-- Loading Spinner (hidden by default) -->
+    <div id="paymentLoader" class="payment-loader" style="display: none;">
+        <div class="spinner"></div>
+        <p>Processing payment...</p>
+    </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
