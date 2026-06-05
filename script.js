@@ -1081,23 +1081,27 @@ el.classList.add("active");
 
 });
 
-/* REMOVE SPLASH */
-let realtimeTimeout;
 
+//  (only listen for specific events):
+let isUpdating = false;
 window.supabaseClient
 .channel('products-channel')
 .on(
 'postgres_changes',
-{ event: '*', schema: 'public', table: 'products' },
-() => {
-
-clearTimeout(realtimeTimeout);
-
-realtimeTimeout = setTimeout(loadProducts, 500);
-
+{ event: 'UPDATE', schema: 'public', table: 'products' },
+(payload) => {
+    if (!isUpdating) {
+        isUpdating = true;
+        setTimeout(() => {
+            loadProducts();
+            isUpdating = false;
+        }, 1000);
+    }
 }
 )
 .subscribe();
+
+
 window.changeQty = function(index, change){
 
 if(!cart[index]) return;
