@@ -1,13 +1,9 @@
-// payment.js - Complete payment logic
-// This file handles ALL M-Pesa functionality
+// payment.js - M-Pesa Payment Integration
 
-const PROJECT_URL = "https://wylhbyrpmotecjdtjrae.supabase.co";
-const ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5bGhieXJwbW90ZWNqZHRqcmFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTIyNzIsImV4cCI6MjA5MzQ4ODI3Mn0.HAy0JxHy913xB6DwApP72SmWG_8hR_Kj9nAqAJXEWfU"; // Get from Settings → API
+const SUPABASE_URL = "https://wylhbyrpmotecjdtjrae.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5bGhieXJwbW90ZWNqZHRqcmFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTIyNzIsImV4cCI6MjA5MzQ4ODI3Mn0.HAy0JxHy913xB6DwApP72SmWG_8hR_Kj9nAqAJXEWfU";
 
-// Initialize Supabase
-const supabase = window.supabase.createClient(PROJECT_URL, ANON_KEY);
-
-let activeSubscription = null;
+let activePaymentSubscription = null;
 
 // Format phone number to international format
 function formatPhoneNumber(phone) {
@@ -22,20 +18,42 @@ function formatPhoneNumber(phone) {
     return formatted;
 }
 
-// Main function to initiate payment
-async function initiatePayment(phone, amount) {
+// Validate Kenyan phone number
+function validatePhoneNumber(phone) {
+    const formatted = formatPhoneNumber(phone);
+    const phoneRegex = /^254[17]\d{8}$/;
+    return phoneRegex.test(formatted);
+}
+
+// Main function to initiate M-Pesa payment
+async function initiateMpesaPayment(phone, amount, orderDetails) {
     try {
         const formattedPhone = formatPhoneNumber(phone);
         
-        const response = await fetch(`${PROJECT_URL}/functions/v1/mpesa-stk-push`, {
+        if (!validatePhoneNumber(formattedPhone)) {
+            return { 
+                success: false, 
+                error: "Please enter a valid Kenyan phone number (e.g., 0712345678)" 
+            };
+        }
+        
+        if (amount < 1) {
+            return { 
+                success: false, 
+                error: "Amount must be at least KES 1" 
+            };
+        }
+        
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/mpesa-stk-push`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${ANON_KEY}`
+                "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
             },
             body: JSON.stringify({
                 phone: formattedPhone,
-                amount: parseInt(amount)
+                amount: parseInt(amount),
+                order_details: orderDetails // Optional: store order info
             })
         });
         
@@ -66,11 +84,13 @@ async function initiatePayment(phone, amount) {
 
 // Listen for payment status changes
 function listenForPaymentStatus(checkoutRequestID) {
-    if (activeSubscription) {
-        activeSubscription.unsubscribe();
+    if (activePaymentSubscription) {
+        activePaymentSubscription.unsubscribe();
     }
     
-    activeSubscription = supabase
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    activePaymentSubscription = supabaseClient
         .channel('payment-updates')
         .on('postgres_changes', {
             event: 'UPDATE',
@@ -79,12 +99,13 @@ function listenForPaymentStatus(checkoutRequestID) {
             filter: `checkout_request_id=eq.${checkoutRequestID}`
         }, (payload) => {
             if (payload.new.status === 'paid') {
-                // Trigger custom event that your main script can listen to
+                // Payment successful
                 window.dispatchEvent(new CustomEvent('paymentSuccess', {
                     detail: payload.new
                 }));
                 cleanup();
             } else if (payload.new.status === 'failed') {
+                // Payment failed
                 window.dispatchEvent(new CustomEvent('paymentFailed', {
                     detail: payload.new
                 }));
@@ -94,21 +115,22 @@ function listenForPaymentStatus(checkoutRequestID) {
         .subscribe();
     
     function cleanup() {
-        if (activeSubscription) {
-            activeSubscription.unsubscribe();
-            activeSubscription = null;
+        if (activePaymentSubscription) {
+            activePaymentSubscription.unsubscribe();
+            activePaymentSubscription = null;
         }
     }
     
-    // Auto cleanup after 60 seconds
+    // Auto cleanup after 120 seconds
     setTimeout(() => {
-        if (activeSubscription) {
-            activeSubscription.unsubscribe();
-            activeSubscription = null;
+        if (activePaymentSubscription) {
+            activePaymentSubscription.unsubscribe();
+            activePaymentSubscription = null;
         }
-    }, 60000);
+    }, 120000);
 }
 
 // Make functions available globally
-window.initiatePayment = initiatePayment;
+window.initiateMpesaPayment = initiateMpesaPayment;
 window.formatPhoneNumber = formatPhoneNumber;
+window.validatePhoneNumber = validatePhoneNumber;
