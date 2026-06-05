@@ -2,7 +2,7 @@
 // This file handles ALL M-Pesa functionality
 
 const PROJECT_URL = "https://wylhbyrpmotecjdtjrae.supabase.co";
-const ANON_KEY = "YOUR_ANON_KEY_HERE"; // Get from Settings → API
+const ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5bGhieXJwbW90ZWNqZHRqcmFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTIyNzIsImV4cCI6MjA5MzQ4ODI3Mn0.HAy0JxHy913xB6DwApP72SmWG_8hR_Kj9nAqAJXEWfU"; // Get from Settings → API
 
 // Initialize Supabase
 const supabase = window.supabase.createClient(PROJECT_URL, ANON_KEY);
