@@ -256,10 +256,6 @@ Checkout • KES ${total}
 }
 
 
-
-WISHLIST FUNCTIONS
-========================= */
-
 window.addToWishlist = function(id){
 
 const product = products.find(p => String(p.id) === String(id));
