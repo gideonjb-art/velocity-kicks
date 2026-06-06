@@ -1739,6 +1739,45 @@ if (nameInput && emailInput && messageInput) {
     emailInput.addEventListener('input', saveDraft);
     messageInput.addEventListener('input', saveDraft);
 }
+// ============================================
+// M-PESA PAYMENT FUNCTION
+// ============================================
+window.initiateMpesaPayment = async function(phone, amount, orderDetails) {
+    console.log("initiateMpesaPayment called with:", phone, amount);
+
+    try {
+        const payload = {
+            phone: String(phone),
+            amount: Number(amount),
+            orderDetails: orderDetails || {}
+        };
+
+        console.log("Sending payload:", JSON.stringify(payload));
+
+        const response = await fetch(
+            "https://wylhbyrpmotecjdtjrae.supabase.co/functions/v1/mpesa-payment",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5bGhieXJwbW90ZWNqZHRqcmFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTIyNzIsImV4cCI6MjA5MzQ4ODI3Mn0.HAy0JxHy913xB6DwApP72SmWG_8hR_Kj9nAqAJXEWfU"
+                },
+                body: JSON.stringify(payload)
+            }
+        );
+
+        const text = await response.text();
+        console.log("Edge function raw response:", text);
+
+        const data = JSON.parse(text);
+        return data;
+
+    } catch (error) {
+        console.error("Payment initiation error:", error);
+        return { success: false, error: error.message || "Failed to fetch" };
+    }
+};
+
 
 // ============================================
 // SIMPLE CHECKOUT FUNCTION - ADD AT END OF FILE
@@ -2049,41 +2088,3 @@ window.openCart = function() {
     setTimeout(setupMpesaButton, 100);
 };
 
-// ============================================
-// M-PESA PAYMENT FUNCTION
-// ============================================
-window.initiateMpesaPayment = async function(phone, amount, orderDetails) {
-    console.log("initiateMpesaPayment called with:", phone, amount);
-
-    try {
-        const payload = {
-            phone: String(phone),
-            amount: Number(amount),
-            orderDetails: orderDetails || {}
-        };
-
-        console.log("Sending payload:", JSON.stringify(payload));
-
-        const response = await fetch(
-            "https://wylhbyrpmotecjdtjrae.supabase.co/functions/v1/mpesa-payment",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5bGhieXJwbW90ZWNqZHRqcmFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTIyNzIsImV4cCI6MjA5MzQ4ODI3Mn0.HAy0JxHy913xB6DwApP72SmWG_8hR_Kj9nAqAJXEWfU"
-                },
-                body: JSON.stringify(payload)
-            }
-        );
-
-        const text = await response.text();
-        console.log("Edge function raw response:", text);
-
-        const data = JSON.parse(text);
-        return data;
-
-    } catch (error) {
-        console.error("Payment initiation error:", error);
-        return { success: false, error: error.message || "Failed to fetch" };
-    }
-};
