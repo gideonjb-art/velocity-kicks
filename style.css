@@ -1925,3 +1925,18 @@ footer {
     display: none !important;
   }
 }
+
+.empty-wishlist {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-wishlist h3 {
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.empty-wishlist p {
+  color: #aaa;
+  margin-bottom: 25px;
+}
