@@ -3443,21 +3443,4 @@ h2::after {
   }
 }
 
-/* Alternative: If you want to completely remove all gaps, use this */
-.product-card {
-  gap: 0;
-}
 
-.product-image-container {
-  margin: 0;
-  padding: 0;
-}
-
-.product-img {
-  margin: 0;
-  padding: 0;
-}
-
-.product-info {
-  margin: 0;
-}
