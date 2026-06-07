@@ -2113,3 +2113,9 @@ function enhanceBrandChips() {
 
 // Call after brands are built
 setTimeout(enhanceBrandChips, 100);
+
+const cards = document.querySelectorAll(".product-card");
+
+cards.forEach((card, index) => {
+  card.style.transitionDelay = `${index * 80}ms`;
+});
