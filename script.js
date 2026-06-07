@@ -2089,48 +2089,6 @@ window.openCart = function() {
 };
 
 // ============================================
-// PREMIUM FAQ ACCORDION DROPDOWN
-// ============================================
-function initPremiumFaq() {
-  const faqItems = document.querySelectorAll('.faq-item');
-  
-  // Restructure FAQ items to have answer div if not already present
-  faqItems.forEach(item => {
-    const h3 = item.querySelector('h3');
-    const p = item.querySelector('p');
-    
-    // If the answer is not wrapped, wrap it
-    if (p && !item.querySelector('.faq-answer')) {
-      const answerDiv = document.createElement('div');
-      answerDiv.className = 'faq-answer';
-      answerDiv.innerHTML = p.outerHTML;
-      p.remove();
-      item.appendChild(answerDiv);
-    }
-    
-    // Add click event
-    h3.style.cursor = 'pointer';
-    h3.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isActive = item.classList.contains('active');
-      
-      // Close all other items (optional: keeps only one open)
-      document.querySelectorAll('.faq-item').forEach(otherItem => {
-        if (otherItem !== item && otherItem.classList.contains('active')) {
-          otherItem.classList.remove('active');
-        }
-      });
-      
-      // Toggle current
-      if (!isActive) {
-        item.classList.add('active');
-      } else {
-        item.classList.remove('active');
-      }
-    });
-  });
-}
-
 // Run after DOM ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initPremiumFaq);
