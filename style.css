@@ -1966,3 +1966,22 @@ html {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+
+#productModal{
+  backdrop-filter:blur(12px);
+}
+
+#productDetails{
+  background:#0f0f0f;
+  border-radius:25px;
+  padding:30px;
+}
+
+#productDetails img{
+  transition:.4s;
+}
+
+#productDetails img:hover{
+  transform:scale(1.03);
+}
