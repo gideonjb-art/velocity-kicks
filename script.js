@@ -2137,3 +2137,21 @@ if (document.readyState === 'loading') {
 } else {
   initPremiumFaq();
 }
+
+// Enhance brand chips with smooth ripple on click
+function enhanceBrandChips() {
+  const chips = document.querySelectorAll('.brand-chip');
+  chips.forEach(chip => {
+    chip.addEventListener('click', function(e) {
+      // remove active from all
+      chips.forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      
+      // subtle haptic vibration if supported
+      if (navigator.vibrate) navigator.vibrate(20);
+    });
+  });
+}
+
+// Call after brands are built
+setTimeout(enhanceBrandChips, 100);
