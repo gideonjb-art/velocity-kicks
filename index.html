@@ -406,7 +406,7 @@ padding-bottom:10px;
 
 <script src="script.js"></script>
 
-<!-- CART MODAL - REARRANGED: PAYMENT SECTION NOW AT THE TOP -->
+<!-- CART MODAL -->
 <div id="cartModal" style="
 display:none;
 position:fixed;
@@ -446,15 +446,13 @@ border-radius:10px;
 
 </div>
 
-<!-- ============================================= -->
-<!-- PAYMENT SECTION MOVED TO THE TOP (RIGHT BELOW TOP BAR) -->
-<!-- ============================================= -->
+  <!-- Inside cartModal, replace the existing total/checkout section -->
 <div style="
     background:#0f0f0f;
     padding:20px;
-    margin:0 20px 20px 20px;
+    border-top:1px solid rgba(255,255,255,0.1);
+    margin-top:20px;
     border-radius:15px;
-    border:1px solid rgba(212,175,55,0.2);
 ">
 
     <h2 style="
@@ -469,8 +467,8 @@ border-radius:10px;
         </span>
     </h2>
     
-    <!-- M-Pesa Payment Form -->
-    <div id="paymentFormContainer" style="margin-top: 10px;">
+    <!-- M-Pesa Payment Form (Inside Cart) -->
+    <div id="paymentFormContainer" style="margin-top: 20px;">
         <div style="margin-bottom: 15px;">
             <label style="display: block; margin-bottom: 8px; font-size: 0.9rem;">M-Pesa Phone Number</label>
             <input type="tel" 
@@ -489,7 +487,6 @@ border-radius:10px;
                     font-weight: bold;
                     background: #D4AF37;
                     color: black;
-                    cursor:pointer;
                 ">
             Pay with M-Pesa
         </button>
@@ -499,13 +496,14 @@ border-radius:10px;
     <div id="cartPaymentStatus" style="margin-top: 15px; padding: 12px; border-radius: 10px; display: none;"></div>
 </div>
 
-<!-- SCROLLABLE CART ITEMS SECTION -->
+<!-- SCROLLABLE CART ITEMS -->
 <div
 id="cartItems"
 style="
-height:calc(100vh - 280px);
+height:calc(100vh - 140px);
 overflow-y:auto;
-padding:0 20px 30px 20px;
+padding:20px;
+padding-bottom:30px;
 box-sizing:border-box;
 -webkit-overflow-scrolling:touch;
 ">  
@@ -540,6 +538,7 @@ Your cart is empty
 </p>
 
 </div>
+
 </div>
 </div>
 
@@ -615,39 +614,5 @@ box-shadow:0 0 30px rgba(0,0,0,0.5);
 eruda.init();
 </script>
 
-<!-- Ensuring that cart open/close and total update functions remain fully functional with new structure -->
-<script>
-  // Preserve original functions if they exist, but ensure cartTotalAmount updates correctly
-  // This is a fallback wrapper to guarantee that any external script references still work seamlessly
-  (function() {
-    // If the main script already defines these, we don't override; just ensure compatibility
-    if (typeof window.updateCartDisplay === 'undefined') {
-      // Monitor for cart updates via original script's cart array (if available)
-      // Many sites use a global cart array; we'll hook into setInterval safe update
-      const originalUpdateCartDisplay = window.updateCartDisplay;
-      if (!originalUpdateCartDisplay) {
-        // define a safe observer for cart changes if needed
-        window.updateCartTotalElement = function() {
-          const totalElem = document.getElementById('cartTotalAmount');
-          if (totalElem && typeof window.getCartTotal === 'function') {
-            totalElem.innerText = 'KES ' + window.getCartTotal();
-          } else if (totalElem && window.cartTotal !== undefined) {
-            totalElem.innerText = 'KES ' + window.cartTotal;
-          } else if (totalElem && window.cart && Array.isArray(window.cart)) {
-            let sum = window.cart.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0);
-            totalElem.innerText = 'KES ' + sum.toLocaleString();
-          }
-        };
-        // run periodically
-        setInterval(() => {
-          if (document.getElementById('cartModal') && document.getElementById('cartModal').style.display === 'block') {
-            if (window.updateCartTotalElement) window.updateCartTotalElement();
-          }
-        }, 300);
-      }
-    }
-  })();
-</script>
-<!-- This ensures any existing script that references cartTotalAmount still works because the ID remains same -->
 </body>
 </html>
