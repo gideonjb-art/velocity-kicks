@@ -1947,7 +1947,7 @@ function pollPaymentStatusCart(checkoutID) {
                 .from('payments')
                 .select('status, mpesa_receipt, amount')
                 .eq('checkout_request_id', checkoutID)
-                .maybesingle();
+                .single();
             
             if (data && data.status === 'paid') {
                 clearInterval(interval);
