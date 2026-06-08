@@ -2076,6 +2076,20 @@ function showToast(message, isError = false) {
     }, 2500);
 }
 
+function initPremiumFaq() {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+
+        if (question) {
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        }
+    });
+}
+
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(setupMpesaButton, 500);
