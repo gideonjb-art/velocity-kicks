@@ -3261,50 +3261,53 @@ h2::after {
   transform: translateY(0);
   filter: blur(0);
 }
-header {
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(10px);
-  z-index: 9998;
+
+.faq-page {
+  background: linear-gradient(135deg, rgba(10,10,12,0.6), rgba(5,5,8,0.8));
+  border-radius: 48px;
+  backdrop-filter: blur(2px);
 }
 
-.hamburger {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+.faq-page h1::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #D4AF37, #f5e6a3);
+  border-radius: 4px;
+  margin: 16px auto 0;
 }
 
-.hamburger:hover {
-  background: #D4AF37;
-  color: #000;
-  transform: scale(1.05);
+.faq-item {
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 24px;
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
 }
 
-.mobile-menu {
-  width: 260px;
-  background: rgba(17, 17, 17, 0.98);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+.faq-item:hover {
+  border-color: rgba(212,175,55,0.5);
+  transform: translateY(-2px);
 }
 
-.mobile-menu.show {
-  animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.mobile-menu a:hover {
-  background: rgba(212, 175, 55, 0.15);
+.faq-item h3::after {
+  content: '\f078';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
   color: #D4AF37;
-  padding-left: 26px;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active h3::after { transform: rotate(180deg); }
+
+.faq-answer {
+  max-height: 0;
+  padding: 0 24px;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 200px;
+  padding: 0 24px 20px;
+  border-top: 1px solid rgba(212,175,55,0.25);
 }
