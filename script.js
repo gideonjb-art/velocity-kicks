@@ -1715,30 +1715,7 @@ function showFormMessage(type, message) {
     }, 5000);
 }
 
-// Auto-save to localStorage (optional - saves draft)
-const nameInput = document.getElementById('contactName');
-const emailInput = document.getElementById('contactEmail');
-const messageInput = document.getElementById('contactMessage');
 
-if (nameInput && emailInput && messageInput) {
-    // Load saved draft
-    if (localStorage.getItem('contact_draft_name')) {
-        nameInput.value = localStorage.getItem('contact_draft_name');
-        emailInput.value = localStorage.getItem('contact_draft_email');
-        messageInput.value = localStorage.getItem('contact_draft_message');
-    }
-    
-    // Save draft on input
-    const saveDraft = () => {
-        localStorage.setItem('contact_draft_name', nameInput.value);
-        localStorage.setItem('contact_draft_email', emailInput.value);
-        localStorage.setItem('contact_draft_message', messageInput.value);
-    };
-    
-    nameInput.addEventListener('input', saveDraft);
-    emailInput.addEventListener('input', saveDraft);
-    messageInput.addEventListener('input', saveDraft);
-}
 // ============================================
 // M-PESA PAYMENT FUNCTION
 // ============================================
