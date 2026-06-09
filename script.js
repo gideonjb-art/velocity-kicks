@@ -875,12 +875,68 @@ revealOnScroll();
 
 });
 
+async function validateCartAndWishlist() {
+
+  if (!products.length) return;
+
+  // CART
+  cart = cart.filter(cartItem => {
+
+    const product = products.find(
+      p => String(p.id) === String(cartItem.id)
+    );
+
+    // Product deleted
+    if (!product) return false;
+
+    // Out of stock
+    if (Number(product.stock) <= 0) return false;
+
+    // Update latest price/image/name
+    cartItem.name = product.name;
+    cartItem.price = product.price;
+    cartItem.image = product.image;
+
+    return true;
+  });
+
+  // WISHLIST
+  wishlist = wishlist.filter(wishItem => {
+
+    const product = products.find(
+      p => String(p.id) === String(wishItem.id)
+    );
+
+    if (!product) return false;
+
+    wishItem.name = product.name;
+    wishItem.price = product.price;
+    wishItem.image = product.image;
+
+    return true;
+  });
+
+  saveCart();
+  saveWishlist();
+
+}
+
 /* INIT */
-window.addEventListener("load", () => {
-loadProducts();
-initShop();
-revealOnScroll();
-renderRecentlyViewed();
+window.addEventListener("load", async () => {
+
+  await loadProducts();
+
+  await validateCartAndWishlist();
+
+  initShop();
+
+  renderCart();
+  renderWishlist();
+
+  revealOnScroll();
+  renderRecentlyViewed();
+
+});
 
 document.querySelectorAll(".reveal").forEach(el => {
 el.classList.add("active");
