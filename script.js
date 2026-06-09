@@ -1281,20 +1281,11 @@ function buildBrandScrollRow() {
 
 // Select a brand
 let activeBrand = null;
+
 window.selectBrand = function(brandName){
 
-  document.querySelectorAll(".brand-chip")
-    .forEach(chip => {
-      chip.classList.remove("active");
-
-      if(chip.dataset.brand === brandName){
-        chip.classList.add("active");
-      }
-    });
-
-  const brandProducts = products.filter(
-    p => (p.brand || "").toLowerCase() === brandName.toLowerCase()
-  );
+  const brandSection =
+    document.getElementById("brandProductsSection");
 
   const brandGrid =
     document.getElementById("brandProductsGrid");
@@ -1302,38 +1293,88 @@ window.selectBrand = function(brandName){
   const brandTitle =
     document.getElementById("brandTitle");
 
-  const brandSection =
-    document.getElementById("brandProductsSection");
+  // CLICK SAME BRAND AGAIN = CLOSE
+  if(activeBrand === brandName){
 
-  brandTitle.textContent =
-    `${brandName} Collection`;
+    activeBrand = null;
 
-  brandGrid.innerHTML = brandProducts.map(p => `
-    <div class="product-card"
-      onclick="openProduct('${p.id}')">
+    document.querySelectorAll(".brand-chip")
+      .forEach(chip =>
+        chip.classList.remove("active")
+      );
 
-      <img
-        src="${p.image}"
-        class="product-img"
-        alt="${p.name}"
-      >
+    if(brandSection){
+      brandSection.style.display = "none";
+    }
 
-      <div class="product-info">
-        <h3>${p.name}</h3>
+    if(brandGrid){
+      brandGrid.innerHTML = "";
+    }
 
-        <p class="product-price">
-          KES ${Number(p.price).toLocaleString()}
-        </p>
+    return;
+  }
+
+  // SET ACTIVE BRAND
+  activeBrand = brandName;
+
+  // UPDATE CHIP STYLES
+  document.querySelectorAll(".brand-chip")
+    .forEach(chip => {
+
+      chip.classList.remove("active");
+
+      if(chip.dataset.brand === brandName){
+        chip.classList.add("active");
+      }
+
+    });
+
+  // GET PRODUCTS FOR BRAND
+  const brandProducts = products.filter(
+    p =>
+      (p.brand || "").toLowerCase() ===
+      brandName.toLowerCase()
+  );
+
+  // UPDATE TITLE
+  if(brandTitle){
+    brandTitle.textContent =
+      `${brandName} Collection`;
+  }
+
+  // RENDER PRODUCTS
+  if(brandGrid){
+
+    brandGrid.innerHTML = brandProducts.map(p => `
+      <div class="product-card"
+           onclick="openProduct('${p.id}')">
+
+        <img
+          src="${p.image}"
+          class="product-img"
+          alt="${p.name}"
+        >
+
+        <div class="product-info">
+          <h3>${p.name}</h3>
+
+          <p class="product-price">
+            KES ${Number(p.price).toLocaleString()}
+          </p>
+        </div>
+
       </div>
+    `).join("");
+  }
 
-    </div>
-  `).join("");
+  // SHOW SECTION
+  if(brandSection){
+    brandSection.style.display = "block";
 
-  brandSection.style.display = "block";
-
-  brandSection.scrollIntoView({
-    behavior: "smooth"
-  });
+    brandSection.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
 
 };
 
