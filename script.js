@@ -1935,7 +1935,7 @@ window.checkoutCart = function() {
         0
     );
 
-}
+
     
     // Get phone input from cart modal
     const phoneInput = document.getElementById('mpesaPhone');
