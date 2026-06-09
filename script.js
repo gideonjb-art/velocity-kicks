@@ -190,6 +190,29 @@ style="width:70px;height:70px;object-fit:cover;border-radius:10px;" />
 Size: ${item.size}
 </p>
 
+${
+item.stock === 0
+? `
+<p style="
+color:#ff4d4d;
+font-weight:bold;
+margin-top:5px;
+">
+❌ Out Of Stock
+</p>
+`
+: `
+<p style="
+color:#4CAF50;
+font-weight:bold;
+margin-top:5px;
+">
+✓ In Stock
+</p>
+`
+}
+
+
 <div style="display:flex;align-items:center;gap:10px;margin-top:5px;">
 
 <button onclick="changeQty(${i}, -1)">-</button>
@@ -890,7 +913,13 @@ async function validateCartAndWishlist() {
     if (!product) return false;
 
     // Out of stock
-    if (Number(product.stock) <= 0) return false;
+  cartItem.stock = Number(product.stock);
+
+cartItem.name = product.name;
+cartItem.price = product.price;
+cartItem.image = product.image;
+
+return true;
 
     // Update latest price/image/name
     cartItem.name = product.name;
