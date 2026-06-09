@@ -1281,43 +1281,62 @@ function buildBrandScrollRow() {
 
 // Select a brand
 let activeBrand = null;
-
 window.selectBrand = function(brandName){
-
-  document
-    .getElementById("products")
-    .scrollIntoView({
-      behavior:"smooth"
-    });
-
-  // Click same brand again = show all products
-  if(activeBrand === brandName){
-
-    activeBrand = null;
-
-    document.querySelectorAll(".brand-chip")
-      .forEach(chip => chip.classList.remove("active"));
-
-    renderProducts();
-
-    return;
-  }
-
-  activeBrand = brandName;
 
   document.querySelectorAll(".brand-chip")
     .forEach(chip => {
-
       chip.classList.remove("active");
 
       if(chip.dataset.brand === brandName){
         chip.classList.add("active");
       }
-
     });
 
-  renderProducts();
+  const brandProducts = products.filter(
+    p => (p.brand || "").toLowerCase() === brandName.toLowerCase()
+  );
+
+  const brandGrid =
+    document.getElementById("brandProductsGrid");
+
+  const brandTitle =
+    document.getElementById("brandTitle");
+
+  const brandSection =
+    document.getElementById("brandProductsSection");
+
+  brandTitle.textContent =
+    `${brandName} Collection`;
+
+  brandGrid.innerHTML = brandProducts.map(p => `
+    <div class="product-card"
+      onclick="openProduct('${p.id}')">
+
+      <img
+        src="${p.image}"
+        class="product-img"
+        alt="${p.name}"
+      >
+
+      <div class="product-info">
+        <h3>${p.name}</h3>
+
+        <p class="product-price">
+          KES ${Number(p.price).toLocaleString()}
+        </p>
+      </div>
+
+    </div>
+  `).join("");
+
+  brandSection.style.display = "block";
+
+  brandSection.scrollIntoView({
+    behavior: "smooth"
+  });
+
 };
+
 
 
 // Initialize the brand row when page loads
