@@ -942,7 +942,6 @@ document.querySelectorAll(".reveal").forEach(el => {
 el.classList.add("active");
 });
 
-});
 
 
 //  (only listen for specific events):
