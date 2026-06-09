@@ -596,8 +596,33 @@ Check window.supabaseClient permissions or table names
 
 return;
 }
-
 products = data || [];
+
+/* SYNC CART STOCK WITH DATABASE */
+cart.forEach(cartItem => {
+
+    const product = products.find(
+        p => String(p.id) === String(cartItem.id)
+    );
+
+    if(product){
+
+        cartItem.stock = Number(product.stock);
+
+    } else {
+
+        cartItem.stock = 0;
+
+    }
+
+});
+  
+  cart = cart.filter(
+    item => Number(item.stock) > 0
+);
+
+
+saveCart();
 
 console.log("Loaded Products:", products);
 
