@@ -1906,15 +1906,36 @@ window.initiateMpesaPayment = async function(phone, amount, orderDetails) {
 
 // Make sure cart functions are available
 window.checkoutCart = function() {
+
     console.log("checkoutCart called");
-    
+
     if (typeof cart === 'undefined' || cart.length === 0) {
         showToast("Your cart is empty", true);
         return;
     }
-    
+
+    // BLOCK OUT-OF-STOCK ITEMS
+    const unavailableItems = cart.filter(
+        item => Number(item.stock) <= 0
+    );
+
+    if (unavailableItems.length > 0) {
+
+        showToast(
+            "Remove out-of-stock items before checkout",
+            true
+        );
+
+        return;
+    }
+
     // Calculate total
-    let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    let total = cart.reduce(
+        (sum, item) => sum + (item.price * item.quantity),
+        0
+    );
+
+}
     
     // Get phone input from cart modal
     const phoneInput = document.getElementById('mpesaPhone');
