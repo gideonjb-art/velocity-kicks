@@ -96,18 +96,32 @@ item.size === selectedSize
 
 if(existing){
 
-existing.quantity += 1;
+    if(existing.quantity >= Number(product.stock)){
+        showToast(
+            `Only ${product.stock} available in stock`,
+            true
+        );
+        return;
+    }
+
+    existing.quantity += 1;
 
 }else{
 
-cart.push({
-id: product.id,
-name: product.name,
-price: Number(product.price),
-image: product.image,
-size: selectedSize,
-quantity: 1
-});
+    if(Number(product.stock) <= 0){
+        showToast("Product out of stock", true);
+        return;
+    }
+
+    cart.push({
+        id: product.id,
+        name: product.name,
+        price: Number(product.price),
+        image: product.image,
+        size: selectedSize,
+        quantity: 1,
+        stock: Number(product.stock)
+    });
 
 }
 
@@ -1017,30 +1031,34 @@ window.supabaseClient
 )
 .subscribe();
 
-
 window.changeQty = function(index, change){
 
-if(!cart[index]) return;
+    if(!cart[index]) return;
 
-cart[index].quantity += change;
+    const item = cart[index];
 
-// remove if 0
-if(cart[index].quantity <= 0){
-cart.splice(index, 1);
-}
+    if(change > 0){
 
-saveCart();
-renderCart();
+        if(item.quantity >= Number(item.stock)){
+            showToast(
+                `Only ${item.stock} available`,
+                true
+            );
+            return;
+        }
 
+    }
+
+    item.quantity += change;
+
+    if(item.quantity <= 0){
+        cart.splice(index, 1);
+    }
+
+    saveCart();
+    renderCart();
 };
-window.removeFromCart = function(index){
 
-cart.splice(index, 1);
-
-saveCart();
-renderCart();
-
-};
 function renderRecentlyViewed(){
 
 const container =
