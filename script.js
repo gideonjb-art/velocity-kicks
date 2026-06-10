@@ -1717,19 +1717,37 @@ window.quickAddToCart = function(productId) {
   let existing = cart.find(item => 
     String(item.id) === String(product.id) && item.size === selectedSize
   );
-  
   if (existing) {
+
+    if(existing.quantity >= Number(product.stock)){
+        showToast(
+            `Only ${product.stock} available`,
+            true
+        );
+        return;
+    }
+
     existing.quantity += 1;
-  } else {
+
+} else {
+
+    if(Number(product.stock) <= 0){
+        showToast("Product out of stock", true);
+        return;
+    }
+
     cart.push({
-      id: product.id,
-      name: product.name,
-      price: Number(product.price),
-      image: product.image,
-      size: selectedSize,
-      quantity: 1
+        id: product.id,
+        name: product.name,
+        price: Number(product.price),
+        image: product.image,
+        size: selectedSize,
+        quantity: 1,
+        stock: Number(product.stock)
     });
-  }
+
+}
+  
   
   saveCart();
   showToast(`✓ Added ${product.name} (${selectedSize})`);
