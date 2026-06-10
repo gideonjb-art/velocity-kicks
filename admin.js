@@ -166,11 +166,14 @@ if(file){
   const fileName =
     Date.now() + "-" + file.name.replace(/\s/g,"");
 
-  const { error: uploadError } =
-    await supabaseClient.storage
-      .from("products")
-      .upload(fileName, file);
+const { data: uploadData, error: uploadError } =
+  await supabaseClient.storage
+    .from("products")
+    .upload(fileName, file);
 
+console.log("UPLOAD DATA:", uploadData);
+console.log("UPLOAD ERROR:", uploadError);
+ 
   if(uploadError){
 
     alert(uploadError.message);
