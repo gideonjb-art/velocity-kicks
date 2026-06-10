@@ -2107,15 +2107,16 @@ function setupMpesaButton() {
         }
         
         // Prepare order
-        const orderDetails = {
-            items: cart.map(item => ({
-                name: item.name,
-                size: item.size,
-                quantity: item.quantity,
-                price: item.price
-            })),
-            total: total
-        };
+      const orderDetails = {
+    items: cart.map(item => ({
+        id: item.id,
+        name: item.name,
+        size: item.size,
+        quantity: item.quantity,
+        price: item.price
+    })),
+    total: total
+};
         
         try {
             const result = await window.initiateMpesaPayment(formattedPhone, total, orderDetails);
