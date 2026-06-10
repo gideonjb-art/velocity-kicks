@@ -1971,6 +1971,17 @@ window.checkoutCart = function() {
 
         return;
     }
+  const overLimit = cart.filter(
+    item => item.quantity > Number(item.stock)
+);
+
+if(overLimit.length){
+    showToast(
+        "Some cart quantities exceed available stock",
+        true
+    );
+    return;
+}
 
     // Calculate total
     let total = cart.reduce(
