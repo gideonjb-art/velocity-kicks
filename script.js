@@ -1166,15 +1166,28 @@ font-weight:bold;
 ">
 KES ${product.price}
 </p>
-
-<p style="
-opacity:.8;
-line-height:1.8;
+<div style="
 margin:20px 0;
+padding:15px;
+background:rgba(255,255,255,0.03);
+border-radius:12px;
+line-height:1.8;
 ">
+<h3 style="
+margin-top:0;
+color:#D4AF37;
+">
+Description
+</h3>
+
+<p style="opacity:.85;">
+${product.description || `
 Premium sneaker from Velocity Kicks.
 High quality comfort and modern streetwear style.
+`}
 </p>
+</div>
+
 
 <select
 id="modal-size-${product.id}"
