@@ -3329,5 +3329,31 @@ h2::after {
   box-shadow: 0 5px 15px rgba(212,175,55,0.2);
 }
 
+/* FIXED: Image Container */
+.product-image-container {
+  position: relative;
+  overflow: hidden;
+  height: 220px;            /* replaces aspect-ratio: 1/1 */
+  background: linear-gradient(145deg, #0e0e0e, #060606);
+}
 
+/* FIXED: Image fills container fully */
+.product-img {
+  width: 100%;
+  height: 100%;            
+  object-fit: cover;
+  display: block;          
+  transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+/* FIXED: Mobile override - keep consistent */
+@media (max-width: 768px) {
+  .product-image-container {
+    height: 160px;
+  }
+
+  .product-img {
+    height: 100%;          
+  }
+}
 
