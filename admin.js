@@ -1,4 +1,3 @@
-
 const supabaseClient = window.supabase.createClient(
 "https://wylhbyrpmotecjdtjrae.supabase.co",
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5bGhieXJwbW90ZWNqZHRqcmFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTIyNzIsImV4cCI6MjA5MzQ4ODI3Mn0.HAy0JxHy913xB6DwApP72SmWG_8hR_Kj9nAqAJXEWfU"
@@ -137,6 +136,10 @@ const sizes = document
 .getElementById("prodSizes")
 .value
 .trim();
+ const description = document
+.getElementById("prodDescription")
+.value
+.trim();
 
 const category = document.getElementById("prodCategory").value;
  const brand =
@@ -193,6 +196,7 @@ name,
 price: Number(price),
 stock: Number(stock),
 sizes,
+decription,
 category,
 brand: brand || null,
 image: imageUrl
@@ -260,6 +264,9 @@ product.stock;
   
   document.getElementById("prodSizes").value =
 product.sizes || "";
+
+ document.getElementById("prodDescription").value =
+product.description || "";
 
 document.getElementById("prodCategory").value =
 product.category;
@@ -349,6 +356,8 @@ document.getElementById("prodName").value = "";
 document.getElementById("prodPrice").value = "";
 
 document.getElementById("prodStock").value = "";
+
+document.getElementById("prodDescription").value = "";
 
 document.getElementById("imageFile").value = "";
 
