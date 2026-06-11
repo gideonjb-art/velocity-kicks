@@ -3329,3 +3329,19 @@ h2::after {
   box-shadow: 0 5px 15px rgba(212,175,55,0.2);
 }
 
+/* REMOVE GAP BETWEEN IMAGE AND NAME */
+.product-image-container{
+    margin-bottom:0 !important;
+    padding-bottom:0 !important;
+}
+
+.product-info{
+    padding-top:8px !important;
+}
+
+.product-title,
+.product-info h3{
+    margin-top:0 !important;
+    margin-bottom:4px !important;
+    line-height:1.2 !important;
+}
