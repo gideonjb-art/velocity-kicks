@@ -196,7 +196,7 @@ name,
 price: Number(price),
 stock: Number(stock),
 sizes,
-decription,
+description,
 category,
 brand: brand || null,
 image: imageUrl
